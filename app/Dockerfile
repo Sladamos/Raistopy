@@ -8,4 +8,5 @@ RUN npm install
 RUN npm install -g nodemon
 COPY . .
 EXPOSE 3000
-CMD ["sh", "-c", "npm run start:${NODE_ENV}"]
+ENTRYPOINT [ "npm", "run" ]
+CMD [ "start:prod" ]

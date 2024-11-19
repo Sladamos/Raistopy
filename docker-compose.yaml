@@ -7,14 +7,14 @@ services:
       dockerfile: Dockerfile
     ports:
       - "3000:3000"
-    environment:
-      - MONGO_URI=mongodb://mongo:27017/raistopy
-      - NODE_ENV=${NODE_ENV:-dev}
     depends_on:
       - mongo
+    env_file:
+      - ./app/docker-config.env
     volumes:
       - ./app:/usr/src/app
       - /usr/src/app/node_modules
+    command: "start:dev"
   
   mongo:
     image: mongo:5.0
