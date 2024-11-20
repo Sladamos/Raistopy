@@ -2,6 +2,7 @@ const express = require('express');
 const morgan = require('morgan');
 
 const userRouter = require('./routes/userRoutes');
+const stopRouter = require('./routes/stopRoutes');
 
 const app = express();
 
@@ -13,5 +14,6 @@ app.use(express.json());
 app.use(express.static(`${__dirname}/public`));
 
 app.use('/api/users', userRouter);
+app.use('/api/stops', stopRouter);
 
 module.exports = app;
