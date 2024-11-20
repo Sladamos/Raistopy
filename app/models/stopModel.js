@@ -30,7 +30,7 @@ async function fetchStopData(ztmApiUrl) {
     const [latestDate] = Object.keys(data).sort().reverse();
     const latestStopsData = data[latestDate]?.stops;
     stops = latestStopsData.map(stop => ({
-        id: stop.stopId,
+        id: stop.stopId.toString(),
         name: stop.stopName,
         description: stop.stopDesc,
         latitude: stop.stopLat,

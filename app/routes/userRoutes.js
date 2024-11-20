@@ -16,6 +16,7 @@ router
 
 router
   .route('/:id/stops/:stopId')
-  .delete(userController.removeStopFromFavorites);
+  .delete(userController.removeStopFromFavorites)
+  .put(userController.addStopToFavorites);
 
 module.exports = router;

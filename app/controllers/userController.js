@@ -146,3 +146,50 @@ exports.deleteUser = async (req, res) => {
       });
     }
   };
+
+  exports.addStopToFavorites = async (req, res) => {
+    try {
+      const user = await UserModel.findById(req.params.id);
+      if (!user) {
+        return res.status(404).json({
+          status: 'fail',
+          message: 'User not found'
+        });
+      }
+
+      const stops = await StopModel.findAll();
+      if (!stops) {
+        return res.status(404).json({
+            status: 'fail',
+            message: 'Stops not found'
+        });
+      }
+
+      const stopToAdd = stops.find(stop => stop.id === req.params.stopId);
+
+      if (!stopToAdd) {
+        return res.status(404).json({
+            status: 'fail',
+            message: 'Stop not found'
+        });
+      }
+      
+      if (!user.favoriteStops.includes(stopToAdd)) {
+        user.favoriteStops.push(req.params.stopId);
+      }
+      await UserModel.findByIdAndUpdate(req.params.id, user, {
+        new: true,
+        runValidators: true
+      });
+
+      res.status(200).json({
+        status: 'success',
+        data: user.favoriteStops
+      });
+    } catch (err) {
+      res.status(500).json({
+        status: 'fail',
+        message: err
+      });
+    }
+  };
