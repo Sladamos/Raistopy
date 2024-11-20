@@ -10,4 +10,8 @@ router
   .patch(userController.updateUser)
   .delete(userController.deleteUser);
 
+router
+  .route('/:id/stops')
+  .get(userController.getUserFavoriteStops);
+
 module.exports = router;
