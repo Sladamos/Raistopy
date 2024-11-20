@@ -118,3 +118,31 @@ exports.deleteUser = async (req, res) => {
         });
       }
 };
+
+ exports.removeStopFromFavorites = async (req, res) => {
+    try {
+      const user = await UserModel.findById(req.params.id);
+      if (!user) {
+        return res.status(404).json({
+          status: 'fail',
+          message: 'User not found'
+        });
+      }
+  
+      user.favoriteStops = user.favoriteStops.filter(stop => stop !== req.params.stopId)
+      await UserModel.findByIdAndUpdate(req.params.id, user, {
+        new: true,
+        runValidators: true
+      });
+  
+      res.status(204).json({
+        status: 'success',
+        data: null
+      });
+    } catch (err) {
+      res.status(404).json({
+        status: 'fail',
+        message: err
+      });
+    }
+  };
