@@ -12,6 +12,16 @@ const userSchema = new mongoose.Schema(
       unique: true,
       trim: true,
       minlength: [5, 'Login musi mieć przynajmniej 5 znaków']
+    },
+    favoriteStops: {
+      type: [String],
+      default: [],
+      validate: {
+        validator: function(arr) {
+          return arr.every(stopId => typeof stopId === 'string');
+        },
+        message: 'Co najmniej jeden przystanek jest niepoprawny'
+      }
     }
   }
 );
