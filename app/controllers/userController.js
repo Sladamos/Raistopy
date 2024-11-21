@@ -93,7 +93,7 @@ exports.getUserFavoriteStops = async (req, res) => {
         });
       }
 
-      const stopsDetails = await StopModel.Stop.find({ _id: { $in: user.favouriteStops } });
+      const stopsDetails = await StopModel.find({ _id: { $in: user.favouriteStops } });
 
       res.status(200).json({
           status: 'success',
@@ -153,7 +153,7 @@ exports.addStopToFavorites = async (req, res) => {
       });
     }
     
-    const stop = await StopModel.Stop.findById(stopId);
+    const stop = await StopModel.findById(stopId);
 
     if (!stop) {
       return res.status(404).json({

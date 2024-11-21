@@ -17,10 +17,10 @@ app.use(express.static(`${__dirname}/public`));
 
 cron.schedule('0 0 * * *', () => {
   console.log('Stops loaded to cache');
-  StopModel.syncStopsWithApi()
+  StopModel.syncStops()
 });
 
-StopModel.syncStopsWithApi()
+StopModel.syncStops()
 
 app.use('/api/users', userRouter);
 app.use('/api/stops', stopRouter);
