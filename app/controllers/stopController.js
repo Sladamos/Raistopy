@@ -21,7 +21,7 @@ exports.getAllStops = async (req, res) => {
                 });
               }
 
-            stops = stops.filter(stop => !user.favoriteStops.includes(stop.id));
+            stops = stops.filter(stop => !user.favoriteStops.map(stop => stop.id).includes(stop.id));
         }
 
         res.status(200).json({

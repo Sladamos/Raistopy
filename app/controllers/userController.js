@@ -101,7 +101,7 @@ exports.deleteUser = async (req, res) => {
             });
         }
 
-        let favoriteStops = stops.filter(stop => user.favoriteStops.includes(stop.id));
+        let favoriteStops = stops.filter(stop => user.favoriteStops.map(stop => stop.id).includes(stop.id));
         res.status(200).json({
             status: 'success',
             data: {
@@ -129,7 +129,7 @@ exports.deleteUser = async (req, res) => {
         });
       }
   
-      user.favoriteStops = user.favoriteStops.filter(stop => stop !== req.params.stopId)
+      user.favoriteStops = user.favoriteStops.filter(stop => stop.id !== req.params.stopId)
       await UserModel.findByIdAndUpdate(req.params.id, user, {
         new: true,
         runValidators: true
@@ -175,7 +175,7 @@ exports.deleteUser = async (req, res) => {
       }
       
       if (!user.favoriteStops.includes(stopToAdd)) {
-        user.favoriteStops.push(req.params.stopId);
+        user.favoriteStops.push(stopToAdd);
       }
       await UserModel.findByIdAndUpdate(req.params.id, user, {
         new: true,
