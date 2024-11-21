@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 
 process.on('uncaughtException', err => {
-  console.log('Niezłapany wyjątek, zamknięcie aplikacji');
+  console.log('Unhandled exception');
   console.log(err.name, err.message);
   process.exit(1);
 });
@@ -19,15 +19,15 @@ mongoose
   .connect(DB, {
     useNewUrlParser: true,
   })
-  .then(() => console.log('Podłączenie do DB!'));
+  .then(() => console.log('Connected to DB!'));
 
 const port = process.env.PORT || 3000;
 const server = app.listen(port, () => {
-  console.log(`Aplikacja działa na porcie ${port}...`);
+  console.log(`App started on port ${port}...`);
 });
 
 process.on('unhandledRejection', err => {
-  console.log('Niezłapany reject');
+  console.log('Unhandled reject');
   console.log(err.name, err.message);
   server.close(() => {
     process.exit(1);

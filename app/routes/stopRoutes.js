@@ -1,14 +1,14 @@
 const express = require('express');
-const userController = require('./../controllers/stopController');
+const stopController = require('./../controllers/stopController');
 
 const router = express.Router();
 
 router
   .route('/')
-  .get(userController.getAllStops);
+  .get(stopController.getAllStops);
 
   router
   .route('/:id')
-  .get(userController.getStop);
+  .get(stopController.getStop);
 
 module.exports = router;

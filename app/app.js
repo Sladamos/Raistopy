@@ -16,9 +16,11 @@ app.use(express.json());
 app.use(express.static(`${__dirname}/public`));
 
 cron.schedule('0 0 * * *', () => {
-  console.log('Running daily api data sync');
-  StopModel.syncWithApi();
+  console.log('Stops loaded to cache');
+  StopModel.syncStopsWithApi()
 });
+
+StopModel.syncStopsWithApi()
 
 app.use('/api/users', userRouter);
 app.use('/api/stops', stopRouter);

@@ -3,7 +3,7 @@ const StopModel = require('./../models/stopModel');
 
 exports.getAllStops = async (req, res) => {
     try {
-        let stops = await StopModel.findAll();
+        let stops = await StopModel.Stop.find();
         if (!stops) {
             return res.status(404).json({
                 status: 'fail',
@@ -41,15 +41,7 @@ exports.getAllStops = async (req, res) => {
 
 exports.getStop = async (req, res) => {
     try {
-        let stops = await StopModel.findAll();
-        if (!stops) {
-            return res.status(404).json({
-                status: 'fail',
-                message: 'Stops not found'
-            });
-        }
-
-        const stop = stops.find(s => s.id === req.params.id);
+        const stop = await StopModel.Stop.findById(req.params.id);
         if (!stop) {
             return res.status(404).json({
               status: 'fail',
