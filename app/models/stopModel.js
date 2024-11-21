@@ -15,8 +15,17 @@ const StopModel = (() => {
         }
     };
 
+    const syncWithApi = async () => {
+        try {
+            stops = await fetchStopData(ztmApiUrl);
+        } catch (error) {
+            throw new Error("Pobieranie danych z ztm się wybombiło!: ", error);
+        }
+    };
+
     return {
-        findAll
+        findAll,
+        syncWithApi
     };
 })();
 

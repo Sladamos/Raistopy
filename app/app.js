@@ -1,8 +1,10 @@
 const express = require('express');
 const morgan = require('morgan');
+const cron = require('node-cron');
 
 const userRouter = require('./routes/userRoutes');
 const stopRouter = require('./routes/stopRoutes');
+const StopModel = require('./models/stopModel');
 
 const app = express();
 
@@ -12,6 +14,11 @@ if (process.env.NODE_ENV === 'development') {
 
 app.use(express.json());
 app.use(express.static(`${__dirname}/public`));
+
+cron.schedule('0 0 * * *', () => {
+  console.log('Running daily api data sync');
+  StopModel.syncWithApi();
+});
 
 app.use('/api/users', userRouter);
 app.use('/api/stops', stopRouter);
