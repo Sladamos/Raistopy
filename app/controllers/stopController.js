@@ -38,3 +38,36 @@ exports.getAllStops = async (req, res) => {
         });
     }
 };
+
+exports.getStop = async (req, res) => {
+    try {
+        let stops = await StopModel.findAll();
+        if (!stops) {
+            return res.status(404).json({
+                status: 'fail',
+                message: 'Stops not found'
+            });
+        }
+
+        const stop = stops.find(s => s.id === req.params.id);
+        if (!stop) {
+            return res.status(404).json({
+              status: 'fail',
+              message: 'Stop not found'
+            });
+        }
+
+        res.status(200).json({
+            status: 'success',
+            data: {
+                stop
+            }
+        });
+    } catch (err) {
+        console.error("Error in getAllStops: ", err);
+        res.status(500).json({
+            status: 'fail',
+            message: 'An error occurred while fetching stops'
+        });
+    }
+};
