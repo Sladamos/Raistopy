@@ -1,22 +1,25 @@
 const express = require('express');
 const userController = require('./../controllers/userController');
+const authController = require('./../controllers/authController');
 
 const router = express.Router();
+router.route('/:id').put(authController.signup)
+
+router.use(authController.protect);
 
 router
   .route('/:id')
-  .get(userController.getUser)
-  .put(userController.createUser)
-  .patch(userController.updateUser)
-  .delete(userController.deleteUser);
+  .get(authController.restrictToUser, userController.getUser)
+  .patch(authController.restrictToUser, userController.updateUser)
+  .delete(authController.restrictToUser, userController.deleteUser);
 
 router
   .route('/:id/stops')
-  .get(userController.getUserFavoriteStops);
+  .get(authController.restrictToUser, userController.getUserFavoriteStops);
 
 router
   .route('/:id/stops/:stopId')
-  .delete(userController.removeStopFromFavorites)
-  .put(userController.addStopToFavorites);
+  .delete(authController.restrictToUser, userController.removeStopFromFavorites)
+  .put(authController.restrictToUser, userController.addStopToFavorites);
 
 module.exports = router;

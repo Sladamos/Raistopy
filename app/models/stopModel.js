@@ -10,8 +10,9 @@ const StopSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    description: {
-        type: String
+    subName: {
+        type: String,
+        required: true
     },
     latitude: {
         type: Number,
@@ -53,13 +54,13 @@ StopSchema.statics.syncStops = async function() {
         }
 
         const data = await response.json();
-        const [latestDate] = Object.keys(data).sort().reverse();
-        const latestStopsData = data[latestDate]?.stops;
+        const formattedToday = new Date().toISOString().split('T')[0];
+        const latestStopsData = data[formattedToday]?.stops;
 
         const stops = latestStopsData.map(stop => ({
             id: stop.stopId.toString(),
-            name: stop.stopName,
-            description: stop.stopDesc,
+            name: stop.stopName || stop.stopDesc,
+            subName: (isNaN(Number(stop.subName)) || Number(stop.subName) > 20) ? null : stop.subName,
             latitude: stop.stopLat,
             longitude: stop.stopLon,
             type: stop.type,
