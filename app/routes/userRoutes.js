@@ -10,4 +10,13 @@ router
   .patch(userController.updateUser)
   .delete(userController.deleteUser);
 
+router
+  .route('/:id/stops')
+  .get(userController.getUserFavoriteStops);
+
+router
+  .route('/:id/stops/:stopId')
+  .delete(userController.removeStopFromFavorites)
+  .put(userController.addStopToFavorites);
+
 module.exports = router;

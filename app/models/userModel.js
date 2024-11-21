@@ -12,6 +12,20 @@ const userSchema = new mongoose.Schema(
       unique: true,
       trim: true,
       minlength: [5, 'Login musi mieć przynajmniej 5 znaków']
+    },
+    favoriteStops: {
+      type: [
+        {
+          type: mongoose.Schema.Types.Mixed
+        }
+      ],
+      default: [],
+      validate: {
+        validator: function(arr) {
+          return arr.every(item => typeof item === 'object' && !Array.isArray(item));
+        },
+        message: 'Co najmniej jeden element jest niepoprawny (musi być obiektem).'
+      }
     }
   }
 );
