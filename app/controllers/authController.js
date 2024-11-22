@@ -100,7 +100,7 @@ exports.protect = catchAsync(async (req, res, next) => {
 });
 
 exports.restrictToUser = (req, res, next) => {
-  if (req.params.id !== req.user._id) {
+  if (!req.user || req.params.id !== req.user._id) {
     return next(new AppError('You do not have permission to access this resource', 403));
   }
   next();

@@ -1,10 +1,10 @@
 const mongoose = require("mongoose");
+const AppError = require("../utils/appError");
 
 const StopSchema = new mongoose.Schema({
-    id: {
+    _id: {
         type: String,
-        required: true,
-        unique: true
+        required: true
     },
     name: {
         type: String,
@@ -50,15 +50,17 @@ StopSchema.statics.syncStops = async function() {
         console.log("Downloading stops from ZTM")
         const response = await fetch(ztmApiUrl);
         if (!response.ok) {
-            throw new Error(`ZTM API did not respond. Response status: ${response.status}`);
+            throw new AppError(`ZTM API did not respond. Response status: ${response.status}`);
         }
 
         const data = await response.json();
         const formattedToday = new Date().toISOString().split('T')[0];
         const latestStopsData = data[formattedToday]?.stops;
 
-        const stops = latestStopsData.map(stop => ({
-            id: stop.stopId.toString(),
+        const bulkOps = latestStopsData
+        .filter(stop => stop.stopId) // Pomiń dane bez `stopId`
+        .map(stop => {
+            const updateFields = {
             name: stop.stopName || stop.stopDesc,
             subName: (isNaN(Number(stop.subName)) || Number(stop.subName) > 20) ? null : stop.subName,
             latitude: stop.stopLat,
@@ -67,13 +69,19 @@ StopSchema.statics.syncStops = async function() {
             zoneName: stop.zoneName,
             virtual: Boolean(stop.virtual),
             ticketZoneBorder: Boolean(stop.ticketZoneBorder),
-            onDemand: Boolean(stop.onDemand)
-        }));
-
-        for (const stop of stops) {
-            await Stop.findOneAndUpdate({ id: stop.id }, stop, { upsert: true });
-        }
-
+            onDemand: Boolean(stop.onDemand),
+            };
+            return {
+            updateOne: {
+                filter: { _id: stop.stopId.toString() },
+                update: { $set: updateFields },
+                upsert: true,
+            },
+            };
+        });
+        if (bulkOps.length > 0) {
+            await Stop.bulkWrite(bulkOps);
+          }
         console.log("Stops have been updated");
     } catch (error) {
         console.error("Unable to fetch data from ZTM reason: ", error);

@@ -33,7 +33,7 @@ const userSchema = new mongoose.Schema(
     favouriteStops: {
       type: [
         {
-          type: mongoose.Schema.ObjectId,
+          type: String,
           ref: 'Stop'
         }
       ],

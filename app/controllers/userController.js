@@ -50,7 +50,7 @@ exports.getUserFavoriteStops = catchAsync(async (req, res) => {
           message: 'User not found'
         });
       }
-
+      
       const stopsDetails = await StopModel.find({ _id: { $in: user.favouriteStops } }).select('_id name subName');
 
       res.status(200).json({
@@ -71,7 +71,7 @@ exports.removeStopFromFavorites = catchAsync(async (req, res) => {
       });
     }
 
-    user.favouriteStops = user.favouriteStops.filter(stop => stop.id !== stopId)
+    user.favouriteStops = user.favouriteStops.filter(stop => stop._id !== stopId)
     await UserModel.findByIdAndUpdate(req.params.id, user, {
       new: true,
       runValidators: true
@@ -103,7 +103,7 @@ exports.addStopToFavorites = catchAsync(async (req, res) => {
       });
     }
     if (user.favouriteStops.includes(stop._id)) {
-      return res.status(200).json({
+      return res.status(201).json({
         status: 'success'
       });
     }
@@ -115,7 +115,7 @@ exports.addStopToFavorites = catchAsync(async (req, res) => {
       { new: true, runValidators: true }
     );
 
-    res.status(204).json({
+    res.status(201).json({
       status: 'success'
     });
 });
