@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const bcrypt = require('bcryptjs');
 
 const userSchema = new mongoose.Schema(
   {
@@ -6,29 +7,52 @@ const userSchema = new mongoose.Schema(
       type: String, 
       required: true
     },
-    login: {
+    email: {
       type: String,
-      required: [true, 'Login jest wymagany'],
+      required: [true, 'Email is required'],
       unique: true,
       trim: true,
-      minlength: [5, 'Login musi mieć przynajmniej 5 znaków']
+      match: [/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, 'Please fill a valid email address']
     },
-    favoriteStops: {
+    password: {
+      type: String,
+      required: [true, 'Please provide a password'],
+      minlength: 12,
+      select: false
+    },
+    passwordConfirm: {
+      type: String,
+      required: [true, 'Please confirm your password'],
+      validate: {
+        validator: function(el) {
+          return el === this.password;
+        },
+        message: 'Passwords are not the same!'
+      }
+    },
+    favouriteStops: {
       type: [
         {
-          type: mongoose.Schema.Types.Mixed
+          type: String,
+          ref: 'Stop'
         }
       ],
-      default: [],
-      validate: {
-        validator: function(arr) {
-          return arr.every(item => typeof item === 'object' && !Array.isArray(item));
-        },
-        message: 'Co najmniej jeden element jest niepoprawny (musi być obiektem).'
-      }
     }
   }
 );
+
+userSchema.pre('save', async function(next) {
+  if (!this.isModified('password')) return next();
+
+  this.password = await bcrypt.hash(this.password, 12);
+
+  this.passwordConfirm = undefined;
+  next();
+});
+
+userSchema.methods.correctPassword = async function(candidatePassword, userPassword) {
+  return await bcrypt.compare(candidatePassword, userPassword);
+};
 
 const User = mongoose.model('User', userSchema);
 

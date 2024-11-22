@@ -1,57 +1,93 @@
-const StopModel = (() => {
+const mongoose = require("mongoose");
+const AppError = require("../utils/appError");
 
-    const ztmApiUrl = "https://ckan.multimediagdansk.pl/dataset/c24aa637-3619-4dc2-a171-a23eec8f2172/resource/4c4025f0-01bf-41f7-a39f-d156d201b82b/download/stops.json";
-
-    let stops = null;
-
-    const findAll = async () => {
-        try {
-            if (stops == null) {
-                stops = await fetchStopData(ztmApiUrl);
-            }
-            return stops;
-        } catch (error) {
-            throw new Error("Pobieranie danych z ztm się wybombiło!: ", error);
-        }
-    };
-
-    const syncWithApi = async () => {
-        try {
-            stops = await fetchStopData(ztmApiUrl);
-        } catch (error) {
-            throw new Error("Pobieranie danych z ztm się wybombiło!: ", error);
-        }
-    };
-
-    return {
-        findAll,
-        syncWithApi
-    };
-})();
-
-async function fetchStopData(ztmApiUrl) {
-    const response = await fetch(ztmApiUrl);
-    if (!response.ok) {
-        throw new Error(`ZTM api did not respond. Response status: ${response.status}`);
+const StopSchema = new mongoose.Schema({
+    _id: {
+        type: String,
+        required: true
+    },
+    name: {
+        type: String,
+        required: true
+    },
+    subName: {
+        type: String,
+        required: true
+    },
+    latitude: {
+        type: Number,
+        required: true
+    },
+    longitude: {
+        type: Number,
+        required: true
+    },
+    type: {
+        type: String,
+        required: true
+    },
+    zoneName: {
+        type: String
+    },
+    virtual: {
+        type: Boolean,
+        default: false
+    },
+    ticketZoneBorder: {
+        type: Boolean,
+        default: false
+    },
+    onDemand: {
+        type: Boolean,
+        default: false
     }
+}, { timestamps: true });
 
-    const data = await response.json();
-    const [latestDate] = Object.keys(data).sort().reverse();
-    const latestStopsData = data[latestDate]?.stops;
-    stops = latestStopsData.map(stop => ({
-        id: stop.stopId.toString(),
-        name: stop.stopName,
-        description: stop.stopDesc,
-        latitude: stop.stopLat,
-        longitude: stop.stopLon,
-        type: stop.type,
-        zoneName: stop.zoneName,
-        virtual: Boolean(stop.virtual),
-        ticketZoneBorder: Boolean(stop.ticketZoneBorder),
-        onDemand: Boolean(stop.onDemand)
-    }));
+StopSchema.statics.syncStops = async function() {
+    const ztmApiUrl = "https://ckan.multimediagdansk.pl/dataset/c24aa637-3619-4dc2-a171-a23eec8f2172/resource/4c4025f0-01bf-41f7-a39f-d156d201b82b/download/stops.json";
+    
+    try {
+        console.log("Downloading stops from ZTM")
+        const response = await fetch(ztmApiUrl);
+        if (!response.ok) {
+            throw new AppError(`ZTM API did not respond. Response status: ${response.status}`);
+        }
 
-    return stops;
-}
+        const data = await response.json();
+        const formattedToday = new Date().toISOString().split('T')[0];
+        const latestStopsData = data[formattedToday]?.stops;
 
-module.exports = StopModel;
+        const bulkOps = latestStopsData
+        .filter(stop => stop.stopId) // Pomiń dane bez `stopId`
+        .map(stop => {
+            const updateFields = {
+            name: stop.stopName || stop.stopDesc,
+            subName: (isNaN(Number(stop.subName)) || Number(stop.subName) > 20) ? null : stop.subName,
+            latitude: stop.stopLat,
+            longitude: stop.stopLon,
+            type: stop.type,
+            zoneName: stop.zoneName,
+            virtual: Boolean(stop.virtual),
+            ticketZoneBorder: Boolean(stop.ticketZoneBorder),
+            onDemand: Boolean(stop.onDemand),
+            };
+            return {
+            updateOne: {
+                filter: { _id: stop.stopId.toString() },
+                update: { $set: updateFields },
+                upsert: true,
+            },
+            };
+        });
+        if (bulkOps.length > 0) {
+            await Stop.bulkWrite(bulkOps);
+          }
+        console.log("Stops have been updated");
+    } catch (error) {
+        console.error("Unable to fetch data from ZTM reason: ", error);
+    }
+};
+
+const Stop = mongoose.model("Stop", StopSchema);
+
+module.exports = Stop

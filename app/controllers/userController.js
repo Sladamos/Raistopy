@@ -1,195 +1,121 @@
 const UserModel = require('./../models/userModel');
+const catchAsync = require('./../utils/catchAsync');
 const StopModel = require('./../models/stopModel');
 
-exports.getUser = async (req, res) => {
-    try {
+exports.getUser = catchAsync(async (req, res) => {
+    const user = await UserModel.findById(req.params.id);
+    if (!user) {
+      return res.status(404).json({
+        status: 'fail',
+        message: 'User not found'
+      });
+    }
+
+    res.status(200).json({
+      status: 'success',
+      data: {
+        user
+      }
+    });
+  });
+
+exports.updateUser = catchAsync(async (req, res) => {
+    const user = await UserModel.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+      runValidators: true
+    });
+
+    res.status(200).json({
+      status: 'success',
+      data: {
+        user
+      }
+    });
+  });
+
+exports.deleteUser = catchAsync(async (req, res) => {
+    await UserModel.findByIdAndDelete(req.params.id);
+
+    res.status(200).json({
+      status: 'success',
+      data: null
+    });
+  });
+
+exports.getUserFavoriteStops = catchAsync(async (req, res) => {
       const user = await UserModel.findById(req.params.id);
       if (!user) {
         return res.status(404).json({
           status: 'fail',
           message: 'User not found'
-        });
-      }
-
-      res.status(200).json({
-        status: 'success',
-        data: {
-          user
-        }
-      });
-    } catch (err) {
-      res.status(404).json({
-        status: 'fail',
-        message: err
-      });
-    }
-  };
-
-exports.createUser = async (req, res) => {
-    try {
-      const user = await UserModel.create({
-        _id: req.params.id,
-        login: req.body.login
-      });
-  
-      res.status(201).json({
-        status: 'success',
-        data: {
-          user
-        }
-      });
-    } catch (err) {
-      res.status(400).json({
-        status: 'fail',
-        message: err
-      });
-    }
-  };
-
-exports.updateUser = async (req, res) => {
-    try {
-      const user = await UserModel.findByIdAndUpdate(req.params.id, req.body, {
-        new: true,
-        runValidators: true
-      });
-  
-      res.status(200).json({
-        status: 'success',
-        data: {
-          user
-        }
-      });
-    } catch (err) {
-      res.status(404).json({
-        status: 'fail',
-        message: err
-      });
-    }
-  };
-
-exports.deleteUser = async (req, res) => {
-    try {
-      await UserModel.findByIdAndDelete(req.params.id);
-  
-      res.status(204).json({
-        status: 'success',
-        data: null
-      });
-    } catch (err) {
-      res.status(404).json({
-        status: 'fail',
-        message: err
-      });
-    }
-  };
-
-  exports.getUserFavoriteStops = async (req, res) => {
-    try {
-        const user = await UserModel.findById(req.params.id);
-        if (!user) {
-          return res.status(404).json({
-            status: 'fail',
-            message: 'User not found'
-          });
-        }
-
-        const stops = await StopModel.findAll();
-        if (!stops) {
-            return res.status(404).json({
-                status: 'fail',
-                message: 'Stops not found'
-            });
-        }
-
-        let favoriteStops = stops.filter(stop => user.favoriteStops.map(stop => stop.id).includes(stop.id));
-        res.status(200).json({
-            status: 'success',
-            data: {
-              favoriteStops
-            }
-          });
-        return 
-        
-      } catch (err) {
-        console.error(err)
-        res.status(500).json({
-          status: 'fail',
-          message: err
-        });
-      }
-};
-
- exports.removeStopFromFavorites = async (req, res) => {
-    try {
-      const user = await UserModel.findById(req.params.id);
-      if (!user) {
-        return res.status(404).json({
-          status: 'fail',
-          message: 'User not found'
-        });
-      }
-  
-      user.favoriteStops = user.favoriteStops.filter(stop => stop.id !== req.params.stopId)
-      await UserModel.findByIdAndUpdate(req.params.id, user, {
-        new: true,
-        runValidators: true
-      });
-  
-      res.status(204).json({
-        status: 'success',
-        data: null
-      });
-    } catch (err) {
-      res.status(404).json({
-        status: 'fail',
-        message: err
-      });
-    }
-  };
-
-  exports.addStopToFavorites = async (req, res) => {
-    try {
-      const user = await UserModel.findById(req.params.id);
-      if (!user) {
-        return res.status(404).json({
-          status: 'fail',
-          message: 'User not found'
-        });
-      }
-
-      const stops = await StopModel.findAll();
-      if (!stops) {
-        return res.status(404).json({
-            status: 'fail',
-            message: 'Stops not found'
-        });
-      }
-
-      const stopToAdd = stops.find(stop => stop.id === req.params.stopId);
-
-      if (!stopToAdd) {
-        return res.status(404).json({
-            status: 'fail',
-            message: 'Stop not found'
         });
       }
       
-      if (!user.favoriteStops.includes(stopToAdd)) {
-        user.favoriteStops.push(stopToAdd);
-      }
-      await UserModel.findByIdAndUpdate(req.params.id, user, {
-        new: true,
-        runValidators: true
-      });
+      const stopsDetails = await StopModel.find({ _id: { $in: user.favouriteStops } }).select('_id name subName');
 
       res.status(200).json({
-        status: 'success',
-        data: user.favoriteStops
-      });
-    } catch (err) {
-      res.status(500).json({
+          status: 'success',
+          data: {
+            "stops": stopsDetails
+          }
+        });
+});
+
+exports.removeStopFromFavorites = catchAsync(async (req, res) => {
+    const { id, stopId } = req.params;
+    const user = await UserModel.findById(id);
+    if (!user) {
+      return res.status(404).json({
         status: 'fail',
-        message: err
+        message: 'User not found'
       });
     }
-  };
+
+    user.favouriteStops = user.favouriteStops.filter(stop => stop._id !== stopId)
+    await UserModel.findByIdAndUpdate(req.params.id, user, {
+      new: true,
+      runValidators: true
+    });
+
+    res.status(204).json({
+      status: 'success'
+    });
+  });
+
+  
+exports.addStopToFavorites = catchAsync(async (req, res) => {
+    const { id, stopId } = req.params;
+
+    const user = await UserModel.findById(id);
+    if (!user) {
+      return res.status(404).json({
+        status: 'fail',
+        message: 'User not found'
+      });
+    }
+    
+    const stop = await StopModel.findById(stopId);
+
+    if (!stop) {
+      return res.status(404).json({
+        status: 'fail',
+        message: 'Stop not found'
+      });
+    }
+    if (user.favouriteStops.includes(stop._id)) {
+      return res.status(201).json({
+        status: 'success'
+      });
+    }
+
+    user.favouriteStops.push(stop._id);
+
+    const updatedUser = await UserModel.findByIdAndUpdate(id,
+      { favouriteStops: user.favouriteStops },
+      { new: true, runValidators: true }
+    );
+
+    res.status(201).json({
+      status: 'success'
+    });
+});
