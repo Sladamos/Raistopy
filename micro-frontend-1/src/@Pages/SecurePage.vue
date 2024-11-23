@@ -3,7 +3,7 @@
     <div v-if="auth.is_authorized">
       Secure content available
     </div>
-    <div v-else>Page is available for unauthorized users. Please authorize first.</div>
+    <div v-else>Page is not available for unauthorized users. Please authorize first.</div>
   </div>
 </template>
 

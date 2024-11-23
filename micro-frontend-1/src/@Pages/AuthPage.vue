@@ -20,7 +20,7 @@ import authStore from "@/@Stores/authStore";
 const auth = authStore.useAuthStore();
 
 function authorize() {
-  auth.authenticate(!auth.is_authorized, uname); //either give direct value or invert it.
+  auth.authenticate(!auth.is_authorized); //either give direct value or invert it.
 }
 </script>
 
