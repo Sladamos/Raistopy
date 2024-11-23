@@ -6,7 +6,8 @@ const helmet = require('helmet');
 const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
 const hpp = require('hpp');
-
+const swaggerUi = require('swagger-ui-express');
+const swaggerSpecs = require('./swaggerCOnfig');
 
 const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/errorController');
@@ -48,6 +49,8 @@ cron.schedule('0 0 * * *', () => {
 
 
 StopModel.syncStops()
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpecs));
 
 app.use('/api/users', userRouter);
 app.use('/api/stops', stopRouter);
