@@ -1,30 +1,26 @@
-<script setup>
-import HelloWorld from './components/HelloWorld.vue'
-</script>
-
 <template>
-  <div>
-    <a href="https://vite.dev" target="_blank">
-      <img src="/vite.svg" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://vuejs.org/" target="_blank">
-      <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
-    </a>
+  <div class="box-border my-3">
+    Super bus stop application
+    <ul class="my-2">
+      <!--Using <a/> will refresh adn reload the page. Routerlink will change the URL and change location but not refresh/reload the whole page.-->
+      <RouterLink to="/">
+        <li>Secure page</li>
+      </RouterLink>
+      <RouterLink to="/InsecurePage">
+        <li>Insecure page</li>
+      </RouterLink>
+      <RouterLink to="/login">
+        <li>Auth</li>
+      </RouterLink>
+    </ul>
   </div>
-  <HelloWorld msg="Vite + Vue" />
+  <RouterView />
 </template>
 
+<script setup lang="ts"></script>
+
 <style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
+ul li{
+  @apply inline p-2 mx-2 bg-neutral-300 rounded-lg hover:bg-sky-400;
 }
 </style>
