@@ -36,4 +36,15 @@ export default defineConfig({
       "@pages": path.resolve(__dirname, "src/@Pages"),
     },
   },
+  server: {
+    proxy: {
+      '/backend': {
+        target: 'http://localhost:3000/',
+        changeOrigin: true,
+        secure: false,
+        ws: true,
+        rewrite: (path) => path.replace(/^\/backend/, ''),
+      },
+    },
+  },
 });

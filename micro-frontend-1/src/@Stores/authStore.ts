@@ -1,24 +1,37 @@
-import * as pin from "pinia";
-import { ref } from "vue";
+import { defineStore } from 'pinia';
+import authService from '../services/authService';
 
-const useAuthStore = pin.defineStore("auth", () => {
-  const is_authorized = ref<boolean>(false);
-  const username = ref<string>();
+export const useAuthStore = defineStore('auth', {
+  state: () => ({
+    isLoggedIn: authService.isAuthenticated(),
+    user: null as null | { email: string },
+  }),
 
-  function authenticate(status: boolean) {
-    is_authorized.value = status;
-  }
+  actions: {
+    async login(email: string, password: string) {
+      try {
+        await authService.login({ email, password });
+        this.isLoggedIn = true;
+        this.user = { email: email }; // Update user state
+      } catch (error) {
+        console.error('Login failed:', error);
+        throw error;
+      }
+    },
 
-  return {
-    //State
-    is_authorized,
-    username,
+    async signup(id: string, email: string, password: string, passwordConfirm: string) {
+      try {
+        await authService.signup({ id, email, password, passwordConfirm });
+      } catch (error) {
+        console.error('Signup failed:', error);
+        throw error;
+      }
+    },
 
-    //Actions
-    authenticate,
-  };
+    logout() {
+      authService.logout();
+      this.isLoggedIn = false;
+      this.user = null;
+    },
+  },
 });
-
-export default {
-  useAuthStore,
-};
