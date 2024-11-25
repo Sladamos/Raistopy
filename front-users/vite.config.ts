@@ -25,17 +25,13 @@ export default defineConfig({
       remotes: {
         'front-stops': 'http://localhost:5001/assets/remoteEntry.js',
       },
-      shared: ['vue'],
+      shared: ['vue', 'pinia']
     }),
   ],
   base: "./",
   resolve: {
     alias: {
-      //Two methods available
-      //Method 1 : using fireURLtoPath (keep adding other paths as needed)
       "@": fileURLToPath(new URL("./src", import.meta.url)),
-
-      //Method 2: using path
       "@components": path.resolve(__dirname, "src/components"),
       "@pages": path.resolve(__dirname, "src/@Pages"),
     },

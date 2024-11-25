@@ -25,22 +25,33 @@
       </div>
     </div>
   </div>
-  <component :is="myComponent" />
+  <component :is="AllStopsComponent" :stopsStore="stopsStore" />
 </template>
 
 <script lang="ts">
 import { useAuthStore } from '../@Stores/authStore';
+import { useStopsStore } from '../@Stores/stopsStore';
 import { defineComponent } from 'vue';
 
-const MyComponent = defineAsyncComponent(() => import('front-stops/MyComponent'));
+const AllStopsComponent = defineAsyncComponent(() => import('front-stops/AllStopsComponent'));
 
 export default defineComponent({
   name: 'Home',
   setup() {
     const authStore = useAuthStore();
+    const stopsStore = useStopsStore();
     
     const isLoggedIn = computed(() => authStore.isLoggedIn);
     const user = authStore.user;
+
+    
+    onMounted(async () => {
+      try {
+        await stopsStore.getStops();
+      } catch (e: any) {
+        console.error('Get stops failed:', e);
+      }
+    });
 
     const logout = () => {
       authStore.logout();
@@ -51,7 +62,8 @@ export default defineComponent({
       isLoggedIn,
       user,
       logout,
-      myComponent: MyComponent
+      AllStopsComponent: AllStopsComponent,
+      stopsStore
     };
   },
 });

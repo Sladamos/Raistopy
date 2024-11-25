@@ -6,9 +6,18 @@ declare module '*.vue' {
   export default component
 }
 
-declare module 'front-stops/*' {
+declare module 'front-stops/AllStopsComponent' {
   import { DefineComponent } from 'vue';
 
-  const MyComponent: DefineComponent<{}, {}, any>;
-  export default MyComponent;
+  const AllStopsComponent: DefineComponent<{}, {}, any>;
+  export default AllStopsComponent;
+}
+
+declare module 'front-stops/stores/stopsStore' {
+  export interface StopsStore {
+    stops: { id: string, name: string, subname: string | null }[];
+    error: string | null;
+    isLoading: boolean;
+    getStops: () => Promise<void>;
+  }
 }

@@ -1,4 +1,4 @@
 import { createApp } from 'vue';
-import MyComponent from './components/MyComponent.vue';
+import AllStopsComponent from './components/AllStopsComponent.vue';
 
-export {MyComponent}
+export {AllStopsComponent}

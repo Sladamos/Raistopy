@@ -10,13 +10,24 @@ import AutoImport from "unplugin-auto-import/vite";
 export default defineConfig({
   plugins: [
     vue(),
+    AutoImport({
+      include: [
+        /\.[tj]sx?$/,
+        /\.vue$/,
+      ],
+      imports: ["vue", "vue-router", "pinia"],
+      dts: true,
+      vueTemplate: true,
+      eslintrc: { enabled: true },
+    }),
     federation({
       name: 'front-stops',
       filename: 'remoteEntry.js',
       exposes: {
-        './MyComponent': './src/components/MyComponent.vue',
+        './AllStopsComponent': './src/components/AllStopsComponent.vue',
+        './stores/stopsStore': './src/stores/stopsStore.ts',
       },
-      shared: ['vue'],
+      shared: ['vue', 'pinia']
     }),
   ],
   server: {
