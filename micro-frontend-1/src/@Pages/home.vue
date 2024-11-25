@@ -30,15 +30,13 @@
 <script lang="ts">
 import { useAuthStore } from '../@Stores/authStore';
 import { defineComponent } from 'vue';
-import { useRouter } from 'vue-router';
 
 export default defineComponent({
   name: 'Home',
   setup() {
     const authStore = useAuthStore();
-    const router = useRouter();
     
-    const isLoggedIn = authStore.isLoggedIn;
+    const isLoggedIn = computed(() => authStore.isLoggedIn);
     const user = authStore.user;
 
     const logout = () => {

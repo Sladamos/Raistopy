@@ -23,12 +23,10 @@ export async function sendRequest(
   
     try {
       const response = await fetch(path, requestOptions);
-  
       if (!response.ok) {
-        const error = await response.text();
-        throw new Error(`Request failed: ${error}`);
+        const error = await response.json();
+        throw new Error(`Request failed: ${error.message}`);
       }
-  
       return await response.json();
     } catch (error) {
       throw new Error(`An error occurred: ${error}`);

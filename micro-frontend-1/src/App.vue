@@ -5,16 +5,20 @@
     <ul class="flex justify-center space-x-6">
       <RouterLink to="/" class="nav-link">Home</RouterLink>
       <RouterLink to="/register" class="nav-link">Register</RouterLink>
-      <RouterLink to="/login" class="nav-link">Login</RouterLink>
-      <RouterLink to="/logout" class="nav-link">Logout</RouterLink>
+      <RouterLink v-if="!isLoggedIn" to="/login" class="nav-link">Login</RouterLink>
+      <RouterLink v-if="isLoggedIn" to="/logout" class="nav-link">Logout</RouterLink>
     </ul>
   </div>
   
   <RouterView />
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { useAuthStore } from './@Stores/authStore';
 
+const authStore = useAuthStore();
+const isLoggedIn = computed(() => authStore.isLoggedIn);
+</script>
 <style scoped>
 /* Custom Tailwind class for navigation links */
 .nav-link {
