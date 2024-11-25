@@ -37,7 +37,7 @@ const _routes: Array<vR.RouteRecordRaw> = [
       component: Logout,
       name: "home.missing",
       meta: {
-        requiresAuth: false
+        requiresAuth: true
       }
     },
 ];

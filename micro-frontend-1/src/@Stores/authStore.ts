@@ -12,7 +12,7 @@ export const useAuthStore = defineStore('auth', {
       try {
         await authService.login({ email, password });
         this.isLoggedIn = true;
-        this.user = { email: email }; // Update user state
+        this.user = { email: email };
       } catch (error) {
         console.error('Login failed:', error);
         throw error;

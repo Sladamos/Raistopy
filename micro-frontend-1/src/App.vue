@@ -2,7 +2,6 @@
   <div class="bg-gray-50 text-gray-800 p-6">
     <h1 class="text-2xl font-bold text-center mb-6">Super Bus Stop Application</h1>
     
-    <!-- Navigation Links -->
     <ul class="flex justify-center space-x-6">
       <RouterLink to="/" class="nav-link">Home</RouterLink>
       <RouterLink to="/register" class="nav-link">Register</RouterLink>
@@ -11,7 +10,6 @@
     </ul>
   </div>
   
-  <!-- Main Content -->
   <RouterView />
 </template>
 

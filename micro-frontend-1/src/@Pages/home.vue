@@ -9,8 +9,7 @@
         </p>
         <button
           @click="logout"
-          class="mt-4 w-full bg-red-600 text-white py-2 px-4 rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500"
-        >
+          class="mt-4 w-full bg-red-600 text-white py-2 px-4 rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500">
           Logout
         </button>
       </div>
@@ -19,8 +18,7 @@
         <p class="text-lg font-medium text-gray-700">You are not authenticated.</p>
         <router-link
           to="/login"
-          class="mt-4 inline-block text-indigo-600 hover:text-indigo-800 font-medium"
-        >
+          class="mt-4 inline-block text-indigo-600 hover:text-indigo-800 font-medium">
           Login
         </router-link>
         <p class="mt-2">Don't have an account? <router-link to="/register" class="text-indigo-600 hover:text-indigo-800">Register</router-link></p>

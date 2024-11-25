@@ -34,7 +34,3 @@ export async function sendRequest(
       throw new Error(`An error occurred: ${error}`);
     }
   }
-
-  export default {
-    
-  }
