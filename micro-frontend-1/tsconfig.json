@@ -13,6 +13,7 @@
     "lib": ["ESNext", "DOM"],
     "skipLibCheck": true,
     "noEmit": true,
+    "typeRoots": ["./node_modules/@types"],
     "paths": {
       //Direct
 
@@ -28,7 +29,12 @@
     "src/**/*.tsx", 
     "src/**/*.vue",
     "vite.config.*",
-    "auto-imports.d.ts"
+    "auto-imports.d.ts",
+    "next-env.d.ts",
+    "/*.ts",
+    "/*.tsx",
+    "src/axios.js"
   ],
+  "exclude": ["node_modules"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

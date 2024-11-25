@@ -1,26 +1,31 @@
 <template>
-  <div class="box-border my-3">
-    Super bus stop application
-    <ul class="my-2">
-      <!--Using <a/> will refresh adn reload the page. Routerlink will change the URL and change location but not refresh/reload the whole page.-->
-      <RouterLink to="/">
-        <li>Secure page</li>
-      </RouterLink>
-      <RouterLink to="/InsecurePage">
-        <li>Insecure page</li>
-      </RouterLink>
-      <RouterLink to="/login">
-        <li>Auth</li>
-      </RouterLink>
+  <div class="bg-gray-50 text-gray-800 p-6">
+    <h1 class="text-2xl font-bold text-center mb-6">Super Bus Stop Application</h1>
+    
+    <ul class="flex justify-center space-x-6">
+      <RouterLink to="/" class="nav-link">Home</RouterLink>
+      <RouterLink to="/register" class="nav-link">Register</RouterLink>
+      <RouterLink to="/login" class="nav-link">Login</RouterLink>
+      <RouterLink to="/logout" class="nav-link">Logout</RouterLink>
     </ul>
   </div>
+  
   <RouterView />
 </template>
 
 <script setup lang="ts"></script>
 
 <style scoped>
-ul li{
-  @apply inline p-2 mx-2 bg-neutral-300 rounded-lg hover:bg-sky-400;
+/* Custom Tailwind class for navigation links */
+.nav-link {
+  @apply inline-block py-2 px-4 text-center text-white rounded-md bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition duration-200 ease-in-out;
+}
+
+.nav-link:hover {
+  @apply bg-indigo-700;
+}
+
+.nav-link:active {
+  @apply bg-indigo-800;
 }
 </style>
