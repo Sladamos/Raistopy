@@ -25,11 +25,14 @@
       </div>
     </div>
   </div>
+  <component :is="myComponent" />
 </template>
 
 <script lang="ts">
 import { useAuthStore } from '../@Stores/authStore';
 import { defineComponent } from 'vue';
+
+const MyComponent = defineAsyncComponent(() => import('front-stops/MyComponent'));
 
 export default defineComponent({
   name: 'Home',
@@ -48,6 +51,7 @@ export default defineComponent({
       isLoggedIn,
       user,
       logout,
+      myComponent: MyComponent
     };
   },
 });
