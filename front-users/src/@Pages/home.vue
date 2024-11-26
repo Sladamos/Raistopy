@@ -28,7 +28,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, onMounted } from 'vue';
+import { defineComponent, computed, onMounted, getCurrentInstance } from 'vue';
 import { useAuthStore } from '../@Stores/authStore';
 import { useToast } from 'vue-toast-notification';
 
@@ -37,7 +37,7 @@ export default defineComponent({
   setup() {
     const authStore = useAuthStore();
     const toast = useToast();
-
+    const instance = getCurrentInstance();
     const isLoggedIn = computed(() => authStore.isLoggedIn);
     const user = authStore.user;
 
@@ -50,7 +50,7 @@ export default defineComponent({
         duration: 2000,
         position: 'top-right',
       });
-      toast.success('Have a good day!', {
+      toast.success(instance.proxy.$staticMessageDataPlugin, {
         duration: 2000,
         position: 'top-right',
       });
