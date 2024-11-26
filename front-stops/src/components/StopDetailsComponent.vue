@@ -64,7 +64,7 @@ export default defineComponent({
     return {
       zoom: 13,
       tileUrl: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-      mapOptions: {}, // Empty object or define specific map options
+      mapOptions: {},
     };
   },
   computed: {

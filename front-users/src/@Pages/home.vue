@@ -58,10 +58,6 @@ export default defineComponent({
 
     const handleLogout = () => {
       authStore.logout();
-      toast.success('You have logged out successfully.', {
-        duration: 2000,
-        position: 'top-right',
-      });
       window.location.reload();
     };
 
@@ -75,5 +71,5 @@ export default defineComponent({
 </script>
 
 <style scoped>
-/* Add your custom styles here */
+
 </style>
