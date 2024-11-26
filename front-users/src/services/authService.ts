@@ -21,7 +21,6 @@ export default {
     const response = await sendRequest("POST", `/backend/api/users/login`, data);
     if (response.token) {
       localStorage.setItem('token', response.token);
-      
     }
     return response;
   },

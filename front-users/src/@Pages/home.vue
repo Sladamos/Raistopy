@@ -5,10 +5,10 @@
 
       <div v-if="isLoggedIn" class="text-center">
         <p v-if="user && user.email" class="text-lg font-medium text-gray-700">
-            Welcome, {{ user.email }}!
+          Welcome, {{ user.email }}!
         </p>
         <button
-          @click="logout"
+          @click="handleLogout"
           class="mt-4 w-full bg-red-600 text-white py-2 px-4 rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500">
           Logout
         </button>
@@ -28,31 +28,52 @@
 </template>
 
 <script lang="ts">
+import { defineComponent, computed, onMounted } from 'vue';
 import { useAuthStore } from '../@Stores/authStore';
-import { defineComponent } from 'vue';
+import { useToast } from 'vue-toast-notification';
 
 export default defineComponent({
   name: 'Home',
   setup() {
     const authStore = useAuthStore();
-    
+    const toast = useToast();
+
     const isLoggedIn = computed(() => authStore.isLoggedIn);
     const user = authStore.user;
 
-    const logout = () => {
+    onMounted(() => {
+      toast.success('Welcome to the Home Page!', {
+        duration: 2000,
+        position: 'top-right',
+      });
+      toast.success('Logged users can add bus stops to favorites', {
+        duration: 2000,
+        position: 'top-right',
+      });
+      toast.success('Have a good day!', {
+        duration: 2000,
+        position: 'top-right',
+      });
+    });
+
+    const handleLogout = () => {
       authStore.logout();
+      toast.success('You have logged out successfully.', {
+        duration: 2000,
+        position: 'top-right',
+      });
       window.location.reload();
     };
 
     return {
       isLoggedIn,
       user,
-      logout
+      handleLogout,
     };
   },
 });
 </script>
 
 <style scoped>
-
+/* Add your custom styles here */
 </style>
