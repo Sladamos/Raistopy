@@ -6,7 +6,7 @@
         v-for="stop in stopsStore.stops"
         :key="stop.id"
         :stop="stop"
-      />
+        @open-stop-details="openStopDetails"/>
     </div>
     <div v-else class="no-stops">
       <p>No stops available.</p>
@@ -18,7 +18,7 @@
 <script lang="ts">
 import { defineComponent, computed } from 'vue';
 import { StopsStore } from '../@Stores/stopsStore';
-import SingleStopData from './SingleStopData.vue';
+import SingleStopData from './SingleStopDataComponent.vue';
 
 export default defineComponent({
   name: 'AllStopsComponent',
@@ -29,11 +29,15 @@ export default defineComponent({
       required: true,
     },
   },
-  setup(props) {
+  setup(props, {emit}) {
     const stops = computed(() => props.stopsStore.stops);
+    const openStopDetails = (stop: any) => {
+      emit('open-stop-details', stop);
+    };
 
     return {
       stops,
+      openStopDetails
     };
   },
 });

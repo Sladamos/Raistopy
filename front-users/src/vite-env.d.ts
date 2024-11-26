@@ -13,6 +13,13 @@ declare module 'front-stops/AllStopsComponent' {
   export default AllStopsComponent;
 }
 
+declare module 'front-stops/StopDetailsComponent' {
+  import { DefineComponent } from 'vue';
+
+  const StopDetailsComponent: DefineComponent<{}, {}, any>;
+  export default StopDetailsComponent;
+}
+
 declare module 'front-stops/stores/stopsStore' {
   export interface StopsStore {
     stops: { id: string, name: string, subname: string | null }[];

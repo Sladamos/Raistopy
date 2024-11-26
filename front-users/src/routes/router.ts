@@ -5,6 +5,7 @@ import Register from '@pages/register.vue';
 import Login from '@pages/login.vue';
 import Logout from '@pages/logout.vue';
 import Stops from '@pages/stops.vue';
+import StopDetails from '@pages/stopDetails.vue';
 
 const _routes: Array<vR.RouteRecordRaw> = [
     {
@@ -19,6 +20,12 @@ const _routes: Array<vR.RouteRecordRaw> = [
       path: '/stops',
       component: Stops,
       name: "home.stops",
+    },
+    {
+      path: '/stops/:id',
+      name: 'StopDetails',
+      component: StopDetails,
+      props: true,
     },
     {
       path: '/register',

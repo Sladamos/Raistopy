@@ -25,6 +25,7 @@ export default defineConfig({
       filename: 'remoteEntry.js',
       exposes: {
         './AllStopsComponent': './src/components/AllStopsComponent.vue',
+        './StopDetailsComponent': './src/components/StopDetailsComponent.vue',
         './stores/stopsStore': './src/@Stores/stopsStore.ts',
       },
       shared: ['vue', 'pinia']
