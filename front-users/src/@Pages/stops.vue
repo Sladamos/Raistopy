@@ -1,6 +1,6 @@
 <template>
     <div class="flex justify-center items-center min-h-screen bg-gray-50">
-        <component :is="AllStopsComponent" :stopsStore="stopsStore" @open-stop-details="openStopDetails"/>
+        <component :is="AllStopsComponent" :stops="stops" @open-stop-details="openStopDetails"/>
     </div>
 </template>
 
@@ -27,9 +27,11 @@ setup() {
     }
     });
 
+    const stops = computed(() => stopsStore.stops);
+
     return {
     AllStopsComponent: AllStopsComponent,
-    stopsStore,
+    stops,
     openStopDetails
     };
 },

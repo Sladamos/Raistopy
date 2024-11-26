@@ -19,12 +19,3 @@ declare module 'front-stops/StopDetailsComponent' {
   const StopDetailsComponent: DefineComponent<{}, {}, any>;
   export default StopDetailsComponent;
 }
-
-declare module 'front-stops/stores/stopsStore' {
-  export interface StopsStore {
-    stops: { id: string, name: string, subname: string | null }[];
-    error: string | null;
-    isLoading: boolean;
-    getStops: () => Promise<void>;
-  }
-}

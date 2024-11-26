@@ -25,7 +25,7 @@ export default defineConfig({
       remotes: {
         'front-stops': 'http://localhost:5001/assets/remoteEntry.js',
       },
-      shared: ['vue', 'pinia']
+      shared: ['vue']
     }),
   ],
   base: "./",

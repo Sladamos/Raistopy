@@ -1,9 +1,9 @@
 <template>
   <div class="container">
     <h1 class="title">All Stops</h1>
-    <div v-if="stopsStore.stops && stopsStore.stops.length" class="grid">
+    <div v-if="stops && stops.length" class="grid">
       <SingleStopData
-        v-for="stop in stopsStore.stops"
+        v-for="stop in stops"
         :key="stop.id"
         :stop="stop"
         @open-stop-details="openStopDetails"/>
@@ -14,26 +14,24 @@
   </div>
 </template>
 
-
 <script lang="ts">
-import { defineComponent, computed } from 'vue';
-import { StopsStore } from '../@Stores/stopsStore';
+import { defineComponent } from 'vue';
 import SingleStopData from './SingleStopDataComponent.vue';
 
 export default defineComponent({
   name: 'AllStopsComponent',
   components: { SingleStopData },
   props: {
-    stopsStore: {
-      type: Object as () => StopsStore,
+    stops: {
+      type: Array as () => { id: string, name: string, subname: string | null }[],
       required: true,
     },
   },
-  setup(props, {emit}) {
-    const stops = computed(() => props.stopsStore.stops);
+  setup(props, { emit }) {
     const openStopDetails = (stop: any) => {
       emit('open-stop-details', stop);
     };
+    const stops = computed(() => props.stops);
 
     return {
       stops,
@@ -43,8 +41,7 @@ export default defineComponent({
 });
 </script>
 
-
-<style>
+<style scoped>
 .container {
   max-width: 1200px;
   margin: 0 auto;

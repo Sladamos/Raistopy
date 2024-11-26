@@ -28,7 +28,7 @@ export default defineConfig({
         './StopDetailsComponent': './src/components/StopDetailsComponent.vue',
         './stores/stopsStore': './src/@Stores/stopsStore.ts',
       },
-      shared: ['vue', 'pinia']
+      shared: ['vue']
     }),
   ],
   base: "./",
