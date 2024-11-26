@@ -1,5 +1,6 @@
 // stopService.ts
 import { sendRequest } from './apiRequestService';
+import { useToast } from 'vue-toast-notification';
 
 export interface SingleStopData {
   id: string;
@@ -21,7 +22,13 @@ export interface SingleStopDetails {
 }
 
 export class StopService {
+  private static toast = useToast();
+
   public static async getStops(): Promise<{data: {stops: [SingleStopData]}}> {
+    this.toast.open({ 
+      message: 'Stops fetched successfully!', 
+      type: 'success' 
+    });
     return await sendRequest("GET", `/backend/api/stops`);
   }
 
