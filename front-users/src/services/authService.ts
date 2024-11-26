@@ -19,10 +19,12 @@ export default {
 
   async login(data: LoginData) {
     const response = await sendRequest("POST", `/backend/api/users/login`, data);
+    console.log(response)
     if (response.token) {
       localStorage.setItem('token', response.token);
+      localStorage.setItem('userId', response.id);
     }
-    return response;
+    return response.id;
   },
 
   logout() {
@@ -33,5 +35,9 @@ export default {
   isAuthenticated(): boolean {
     return !!localStorage.getItem('token');
   },
+
+  userId(): string {
+    return localStorage.getItem('userId') ?? '';
+  }
 };
   

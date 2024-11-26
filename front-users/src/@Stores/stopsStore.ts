@@ -23,6 +23,18 @@ export const useStopsStore = defineStore('stops', {
         this.isLoading = false;
       }
     },
+    async getUserStops(userId: string) {
+      this.isLoading = true; 
+      this.error = null; 
+      try {
+        const stops = await StopService.getUserStops(userId);
+        this.stops = stops.data.stops;
+      } catch (error) {
+        throw error;
+      } finally {
+        this.isLoading = false;
+      }
+    },
 
     async getStopDetails(stopId: string) {
       this.isLoading = true;

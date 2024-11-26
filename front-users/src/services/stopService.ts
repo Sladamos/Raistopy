@@ -32,6 +32,14 @@ export class StopService {
     return await sendRequest("GET", `/backend/api/stops`);
   }
 
+  public static async getUserStops(userId: string): Promise<{data: {stops: [SingleStopData]}}> {
+    this.toast.open({ 
+      message: 'Stops fetched successfully!', 
+      type: 'success' 
+    });
+    return await sendRequest("GET", `/backend/api/users/${userId}/stops`);
+  }
+
   public static async getStopDetails(stopId: string): Promise<{data: {stop:SingleStopDetails } }> {
     return await sendRequest("GET", `/backend/api/stops/${stopId}`);
   }
