@@ -3,6 +3,7 @@ import { fileURLToPath } from "url";
 import path from "path";
 import vue from "@vitejs/plugin-vue";
 
+import federation from '@originjs/vite-plugin-federation';
 import AutoImport from "unplugin-auto-import/vite";
 
 // https://vitejs.dev/config/
@@ -10,28 +11,27 @@ export default defineConfig({
   plugins: [
     vue(),
     AutoImport({
-      //Targets (file extensions)
       include: [
-        /\.[tj]sx?$/, //Regex which says t or j followed by sx. //tsx, jsx, ? next to x says it can happen zero or one time js,ts
-        /\.vue$/, //$ at the end says it ends with vue
+        /\.[tj]sx?$/,
+        /\.vue$/,
       ],
-      //globals (libraries)
       imports: ["vue", "vue-router", "pinia"],
-      //other settings/files/dirs to import
-      dts: true, //Autoimport all the files that ends with d.ts
-      //Autoimport inside vue template
+      dts: true,
       vueTemplate: true,
       eslintrc: { enabled: true },
+    }),
+    federation({
+      name: 'host',
+      remotes: {
+        'front-stops': 'http://localhost:5001/assets/remoteEntry.js',
+      },
+      shared: ['vue']
     }),
   ],
   base: "./",
   resolve: {
     alias: {
-      //Two methods available
-      //Method 1 : using fireURLtoPath (keep adding other paths as needed)
       "@": fileURLToPath(new URL("./src", import.meta.url)),
-
-      //Method 2: using path
       "@components": path.resolve(__dirname, "src/components"),
       "@pages": path.resolve(__dirname, "src/@Pages"),
     },
@@ -46,5 +46,8 @@ export default defineConfig({
         rewrite: (path) => path.replace(/^\/backend/, ''),
       },
     },
+  },
+  build: {
+    target: 'esnext',
   },
 });

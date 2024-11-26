@@ -1,11 +1,11 @@
 import * as vR from "vue-router";
-import SecurePage from "@pages/SecurePage.vue";
-import Pnf from "@pages/NotFoundPage.vue";
 import { useAuthStore } from '../@Stores/authStore';
 import Home from '@pages/home.vue';
 import Register from '@pages/register.vue';
 import Login from '@pages/login.vue';
 import Logout from '@pages/logout.vue';
+import Stops from '@pages/stops.vue';
+import StopDetails from '@pages/stopDetails.vue';
 
 const _routes: Array<vR.RouteRecordRaw> = [
     {
@@ -15,6 +15,17 @@ const _routes: Array<vR.RouteRecordRaw> = [
       meta: {
         requiresAuth: false
       }
+    },
+    {
+      path: '/stops',
+      component: Stops,
+      name: "home.stops",
+    },
+    {
+      path: '/stops/:id',
+      name: 'StopDetails',
+      component: StopDetails,
+      props: true,
     },
     {
       path: '/register',
