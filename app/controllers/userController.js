@@ -68,10 +68,10 @@ exports.removeStopFromFavorites = catchAsync(async (req, res) => {
       return res.status(404).json({
         status: 'fail',
         message: 'User not found'
-      });
+      }); 
     }
 
-    user.favouriteStops = user.favouriteStops.filter(stop => stop._id !== stopId)
+    user.favouriteStops = user.favouriteStops.filter(stop => stop !== stopId)
     await UserModel.findByIdAndUpdate(req.params.id, user, {
       new: true,
       runValidators: true

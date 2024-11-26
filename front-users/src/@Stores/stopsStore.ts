@@ -48,5 +48,27 @@ export const useStopsStore = defineStore('stops', {
         this.isLoading = false;
       }
     },
+
+    async addUserStop(userId: string, stopId: string) {
+      this.error = null;
+      try {
+        await StopService.addUserStop(userId, stopId);
+      } catch (error) {
+        this.error = error as string;
+      }
+    },
+
+    async deleteUserStop(userId: string, stopId: string) {
+      this.error = null;
+      try {
+        await StopService.deleteUserStop(userId, stopId); 
+        this.stops = this.stops.filter(stop => {
+          const rawStop = toRaw(stop);
+          return rawStop._id !== stopId;
+        });
+      } catch (error) {
+        this.error = error as string;
+      }
+    },
   },
 });

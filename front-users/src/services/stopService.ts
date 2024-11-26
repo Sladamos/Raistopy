@@ -3,13 +3,13 @@ import { sendRequest } from './apiRequestService';
 import { useToast } from 'vue-toast-notification';
 
 export interface SingleStopData {
-  id: string;
+  _id: string;
   name: string;
   subname: string | null;
 }
 
 export interface SingleStopDetails {
-  id: string;
+  _id: string;
   name: string;
   subname: string | null;
   latitude: number;
@@ -42,5 +42,21 @@ export class StopService {
 
   public static async getStopDetails(stopId: string): Promise<{data: {stop:SingleStopDetails } }> {
     return await sendRequest("GET", `/backend/api/stops/${stopId}`);
+  }
+
+  public static async addUserStop(userId: string, stopId: string) {
+    this.toast.open({ 
+      message: 'Stop added successfully!', 
+      type: 'success' 
+    });
+    return await sendRequest("PUT", `/backend/api/users/${userId}/stops/${stopId}`);
+  }
+
+  public static async deleteUserStop(userId: string, stopId: string) {
+    this.toast.open({ 
+      message: 'Stop deleted successfully!', 
+      type: 'success' 
+    });
+    return await sendRequest("DELETE", `/backend/api/users/${userId}/stops/${stopId}`);
   }
 }

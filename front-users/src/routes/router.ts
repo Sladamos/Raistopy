@@ -21,11 +21,17 @@ const _routes: Array<vR.RouteRecordRaw> = [
       path: '/stops',
       component: Stops,
       name: "home.stops",
+      meta: {
+        requiresAuth: false
+      }
     },
     {
       path: '/userStops',
       component: UserStops,
       name: "home.userstops",
+      meta: {
+        requiresAuth: true
+      }
     },
     {
       path: '/stops/:id',

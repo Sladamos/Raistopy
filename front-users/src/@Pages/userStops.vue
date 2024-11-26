@@ -1,6 +1,10 @@
 <template>
     <div class="flex justify-center items-center min-h-screen bg-gray-50">
-        <component :is="AllStopsComponent" :stops="stops" @open-stop-details="openStopDetails"/>
+        <component :is="AllStopsComponent" :stops="stops"
+        :show-button="true"
+        :buttonTitle="'Delete'"
+        @on-button-clicked="onButtonClicked"
+        @open-stop-details="openStopDetails"/>
     </div>
 </template>
 
@@ -17,9 +21,8 @@ setup() {
     const stopsStore = useStopsStore();
     const authStore = useAuthStore();
     const router = useRouter();
-    const openStopDetails = (stop: any) => {
-    router.push(`/stops/${stop._id}`);
-};
+    const openStopDetails = (stop: any) => {router.push(`/stops/${stop._id}`);};
+    const onButtonClicked = (stop: any) => {stopsStore.deleteUserStop(authStore.getUserId(), stop._id)}
      
     onMounted(async () => {
     try {
@@ -34,7 +37,8 @@ setup() {
     return {
     AllStopsComponent: AllStopsComponent,
     stops,
-    openStopDetails
+    openStopDetails,
+    onButtonClicked
     };
 },
 });

@@ -29,6 +29,7 @@ export default {
 
   logout() {
     localStorage.removeItem('token');
+    localStorage.removeItem('userId');
     return sendRequest("POST", '/backend/api/users/logout');
   },
 
