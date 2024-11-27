@@ -5,6 +5,7 @@ import Register from '@pages/register.vue';
 import Login from '@pages/login.vue';
 import Logout from '@pages/logout.vue';
 import Stops from '@pages/stops.vue';
+import UserStops from '@pages/userStops.vue';
 import StopDetails from '@pages/stopDetails.vue';
 
 const _routes: Array<vR.RouteRecordRaw> = [
@@ -20,6 +21,17 @@ const _routes: Array<vR.RouteRecordRaw> = [
       path: '/stops',
       component: Stops,
       name: "home.stops",
+      meta: {
+        requiresAuth: false
+      }
+    },
+    {
+      path: '/userStops',
+      component: UserStops,
+      name: "home.userstops",
+      meta: {
+        requiresAuth: true
+      }
     },
     {
       path: '/stops/:id',

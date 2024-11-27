@@ -14,4 +14,9 @@ createApp(App)
 .use(router)
 .use(VueToast)
 .use(staticMessageDataPlugin)
+.directive('highlight', {
+mounted(el, binding) {
+    el.style.backgroundColor = binding.value || 'yellow';
+},
+})
 .mount("#app");

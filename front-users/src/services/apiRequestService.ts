@@ -27,6 +27,9 @@ export async function sendRequest(
         const error = await response.json();
         throw new Error(`Request failed: ${error.message}`);
       }
+      if(response.status === 204) {
+        return null;
+      }
       return await response.json();
     } catch (error) {
       throw new Error(`An error occurred: ${error}`);

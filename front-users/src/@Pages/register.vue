@@ -67,7 +67,7 @@ export default {
       }
 
       try {
-        await authStore.signup(email.value, email.value, password.value, passwordConfirm.value);
+        await authStore.signup(crypto.randomUUID(), email.value, password.value, passwordConfirm.value);
         error.value = null;
         router.push('/login');
       } catch (e: any) {

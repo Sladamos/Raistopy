@@ -1,14 +1,13 @@
 <template>
-    <div v-highlight="'blue'" class="flex justify-center items-center min-h-screen bg-gray-50">
+    <div v-highlight="'pink'" class="flex justify-center items-center min-h-screen bg-gray-50">
         <component :is="AllStopsComponent" 
-        v-highlight="'pink'"
-        :title="'All stops'"
-        :stops="stops" 
-        :show-button="isLoggedIn"
-        :buttonTitle="'Add'"
+        v-highlight="'yellow'"
+        :title="'Favourite stops'"
+        :stops="stops"
+        :show-button="true"
+        :buttonTitle="'Delete'"
         @on-button-clicked="onButtonClicked"
-        @open-stop-details="openStopDetails"
-        />
+        @open-stop-details="openStopDetails"/>
     </div>
 </template>
 
@@ -26,23 +25,21 @@ setup() {
     const authStore = useAuthStore();
     const router = useRouter();
     const openStopDetails = (stop: any) => {router.push(`/stops/${stop._id}`);};
-    const onButtonClicked = (stop: any) => {stopsStore.addUserStop(authStore.getUserId(), stop._id)}
-    
+    const onButtonClicked = (stop: any) => {stopsStore.deleteUserStop(authStore.getUserId(), stop._id)}
+     
     onMounted(async () => {
     try {
-        await stopsStore.getStops();
+        await stopsStore.getUserStops(authStore.getUserId());
     } catch (e: any) {
         console.error('Get stops failed:', e);
     }
     });
 
     const stops = computed(() => stopsStore.stops);
-    const isLoggedIn = computed(() => authStore.isLoggedIn);
 
     return {
     AllStopsComponent: AllStopsComponent,
     stops,
-    isLoggedIn,
     openStopDetails,
     onButtonClicked
     };

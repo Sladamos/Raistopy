@@ -1,12 +1,16 @@
 <template>
   <div class="container">
-    <h1 class="title">All Stops</h1>
+    <h1 class="title">{{ title }}</h1>
     <div v-if="stops && stops.length" class="grid">
       <SingleStopData
         v-for="stop in stops"
         :key="stop.id"
         :stop="stop"
-        @open-stop-details="openStopDetails"/>
+        :buttonTitle="buttonTitle"
+        :show-button="showButton"
+        @open-stop-details="openStopDetails"
+        @on-button-clicked="handleButtonClicked"
+      />
     </div>
     <div v-else class="no-stops">
       <p>No stops available.</p>
@@ -25,17 +29,35 @@ export default defineComponent({
     stops: {
       type: Array as () => { id: string, name: string, subname: string | null }[],
       required: true,
+    }, 
+    buttonTitle: {
+      type: String,
+      required: true,
+    },
+    title: {
+      type: String,
+      required: true,
+    },
+    showButton: {
+      type: Boolean,
+      required: true,
     },
   },
   setup(props, { emit }) {
     const openStopDetails = (stop: any) => {
       emit('open-stop-details', stop);
     };
+
+    const handleButtonClicked = (stop: any) => {
+      emit('on-button-clicked', stop);
+    };
+
     const stops = computed(() => props.stops);
 
     return {
       stops,
-      openStopDetails
+      openStopDetails,
+      handleButtonClicked,
     };
   },
 });

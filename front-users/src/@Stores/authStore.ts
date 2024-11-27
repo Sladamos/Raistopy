@@ -4,15 +4,15 @@ import authService from '../services/authService';
 export const useAuthStore = defineStore('auth', {
   state: () => ({
     isLoggedIn: authService.isAuthenticated(),
-    user: null as null | { email: string },
+    user: null as null | { id: string,  email: string },
   }),
 
   actions: {
     async login(email: string, password: string) {
       try {
-        await authService.login({ email, password });
+        const id = await authService.login({ email, password });
         this.isLoggedIn = true;
-        this.user = { email: email };
+        this.user = { id: id, email: email };
       } catch (error) {
         console.error('Login failed:', error);
         throw error;
@@ -33,5 +33,9 @@ export const useAuthStore = defineStore('auth', {
       this.isLoggedIn = false;
       this.user = null;
     },
+
+    getUserId() {
+      return this.user?.id || authService.userId();
+    }
   },
-});
+}); 

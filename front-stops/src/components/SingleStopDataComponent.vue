@@ -1,8 +1,8 @@
-<!-- SingleStopDataComponent.vue -->
 <template>
   <div class="stop-card" @click="showDetails">
     <h3 class="stop-name">{{ stop.name }}</h3>
     <p class="stop-subname">{{ stop.subName }}</p>
+    <button v-if="showButton" class="action-button" @click.stop="buttonClicked">{{ buttonTitle }}</button>
   </div>
 </template>
 
@@ -16,10 +16,21 @@ export default defineComponent({
       type: Object,
       required: true,
     },
+    buttonTitle: {
+      type: String,
+      required: true,
+    },
+    showButton: {
+      type: Boolean,
+      required: true,
+    },
   },
   methods: {
     showDetails() {
       this.$emit('open-stop-details', this.stop);
+    },
+    buttonClicked() {
+      this.$emit('on-button-clicked', this.stop);
     },
   },
 });
@@ -47,5 +58,20 @@ export default defineComponent({
 
 .stop-subname {
   color: #555;
+}
+
+.action-button {
+  margin-top: 10px;
+  padding: 8px 16px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.action-button:hover {
+  background-color: #0056b3;
 }
 </style>
