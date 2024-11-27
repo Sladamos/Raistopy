@@ -3,7 +3,7 @@
     <div class="w-full max-w-md p-6 bg-white rounded-lg shadow-md">
       <h2 class="text-2xl font-bold text-center text-gray-700 mb-6">Welcome to the Home Page</h2>
 
-      <div v-if="isLoggedIn" class="text-center">
+      <div id="welcome-message" v-if="isLoggedIn" class="text-center">
         <p v-if="user && user.email" class="text-lg font-medium text-gray-700">
           Welcome, {{ user.email }}!
         </p>
@@ -50,7 +50,7 @@ export default defineComponent({
         duration: 2000,
         position: 'top-right',
       });
-      toast.success(instance.proxy.$staticMessageDataPlugin, {
+      toast.success(instance?.proxy?.$staticMessageDataPlugin ?? 'I love KAIMS', {
         duration: 2000,
         position: 'top-right',
       });
