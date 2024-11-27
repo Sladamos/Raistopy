@@ -1,4 +1,4 @@
-import { defineConfig } from "vite";
+import { defineConfig } from 'vitest/config';
 import { fileURLToPath } from "url";
 import path from "path";
 import vue from "@vitejs/plugin-vue";
@@ -49,5 +49,9 @@ export default defineConfig({
   },
   build: {
     target: 'esnext',
+  },
+  test: {
+    globals: true,
+    environment: 'jsdom',
   },
 });

@@ -21,7 +21,8 @@
       "@/*": ["*"],
       "@components/*": ["components/*"],
       "@pages/*": ["@Pages/*"],
-    }
+    },
+    "types": ["vitest/globals"]
   },
   "include": [
     "src/**/*.ts", 
