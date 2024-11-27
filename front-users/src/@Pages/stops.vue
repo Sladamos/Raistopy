@@ -1,12 +1,13 @@
 <template>
-    <div class="flex justify-center items-center min-h-screen bg-gray-50">
+    <div v-highlight="'blue'" class="flex justify-center items-center min-h-screen bg-gray-50">
         <component :is="AllStopsComponent" 
+        v-highlight="'pink'"
+        :title="'All stops'"
         :stops="stops" 
         :show-button="isLoggedIn"
         :buttonTitle="'Add'"
         @on-button-clicked="onButtonClicked"
         @open-stop-details="openStopDetails"
-
         />
     </div>
 </template>

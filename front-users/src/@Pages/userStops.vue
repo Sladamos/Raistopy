@@ -1,6 +1,9 @@
 <template>
-    <div class="flex justify-center items-center min-h-screen bg-gray-50">
-        <component :is="AllStopsComponent" :stops="stops"
+    <div v-highlight="'pink'" class="flex justify-center items-center min-h-screen bg-gray-50">
+        <component :is="AllStopsComponent" 
+        v-highlight="'yellow'"
+        :title="'Favourite stops'"
+        :stops="stops"
         :show-button="true"
         :buttonTitle="'Delete'"
         @on-button-clicked="onButtonClicked"

@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <h1 class="title">All Stops</h1>
+    <h1 class="title">{{ title }}</h1>
     <div v-if="stops && stops.length" class="grid">
       <SingleStopData
         v-for="stop in stops"
@@ -31,6 +31,10 @@ export default defineComponent({
       required: true,
     }, 
     buttonTitle: {
+      type: String,
+      required: true,
+    },
+    title: {
       type: String,
       required: true,
     },
