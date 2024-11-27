@@ -25,12 +25,11 @@
         </div>
         <button
           type="submit"
-          class="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-        >
+          class="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500">
           Login
         </button>
       </form>
-      <p v-if="error" class="text-red-600 text-sm mt-4">{{ error }}</p>
+      <p id="error-message" v-if="error" class="text-red-600 text-sm mt-4">{{ error }}</p>
     </div>
   </div>
 </template>
