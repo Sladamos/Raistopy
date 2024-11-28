@@ -1,5 +1,5 @@
 <template>
-    <div v-highlight="'blue'" class="flex justify-center items-center min-h-screen bg-gray-50">
+    <div v-highlight="'#999999'" class="flex justify-center items-center min-h-screen bg-gray-50">
         <component :is="AllStopsComponent" 
         v-highlight="'pink'"
         :title="'All stops'"
