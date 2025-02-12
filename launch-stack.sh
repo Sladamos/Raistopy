@@ -1,37 +1,24 @@
+#!/bin/bash
 
-Write-Host "Budowanie i uruchamianie kontenerów Docker..."
-docker-compose build
-if ($LASTEXITCODE -ne 0) {
-    Write-Host "Błąd podczas budowania kontenerów!" -ForegroundColor Red
-    exit $LASTEXITCODE
-}
-
+echo "Uruchamianie kontenerów Docker..."
 docker-compose up -d
-if ($LASTEXITCODE -ne 0) {
-    Write-Host "Błąd podczas uruchamiania kontenerów!" -ForegroundColor Red
-    exit $LASTEXITCODE
-}
+if [ $? -ne 0 ]; then
+    echo "Błąd podczas uruchamiania kontenerów!" >&2
+    exit 1
+fi
 
-# Przejście do katalogu front-stops i uruchomienie build + preview
-Write-Host "Przejście do katalogu front-stops i budowanie..."
-Set-Location front-stops
-npm run build
-if ($LASTEXITCODE -ne 0) {
-    Write-Host "Błąd podczas budowania front-stops!" -ForegroundColor Red
-    exit $LASTEXITCODE
-}
+echo "Przejście do katalogu front-stops i uruchamianie..."
+cd front-stops || exit 1
+npm run preview &
+if [ $? -ne 0 ]; then
+    echo "Błąd podczas uruchamiania preview dla front-stops!" >&2
+    exit 1
+fi
 
-npm run preview
-if ($LASTEXITCODE -ne 0) {
-    Write-Host "Błąd podczas uruchamiania preview dla front-stops!" -ForegroundColor Red
-    exit $LASTEXITCODE
-}
-
-# Przejście do katalogu front-users i uruchomienie dev
-Write-Host "Przejście do katalogu front-users i uruchamianie dev..."
-Set-Location ../front-users
-npm run dev
-if ($LASTEXITCODE -ne 0) {
-    Write-Host "Błąd podczas uruchamiania dev dla front-users!" -ForegroundColor Red
-    exit $LASTEXITCODE
-}
+echo "Przejście do katalogu front-users i uruchamianie dev..."
+cd ../front-users || exit 1
+npm run dev &
+if [ $? -ne 0 ]; then
+    echo "Błąd podczas uruchamiania dev dla front-users!" >&2
+    exit 1
+fi

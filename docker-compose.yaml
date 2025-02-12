@@ -3,17 +3,17 @@ version: '3.9'
 services:
   backend:
     build:
-      context: ./app
+      context: backend
       dockerfile: Dockerfile
     ports:
       - "3000:3000"
     depends_on:
       - mongo
     env_file:
-      - ./app/docker-config.env
+      - backend/docker-config.env
     volumes:
-      - ./app:/usr/src/app
-      - /usr/src/app/node_modules
+      - ./backend:/usr/src/app
+      - /usr/src/backend/node_modules
     command: "start:dev"
   
   mongo:
