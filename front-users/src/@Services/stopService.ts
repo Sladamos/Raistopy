@@ -25,17 +25,17 @@ export class StopService {
   private static toast = useToast();
 
   public static async getStops(): Promise<{data: {stops: [SingleStopData]}}> {
-    this.toast.open({ 
-      message: 'Stops fetched successfully!', 
-      type: 'success' 
+    this.toast.open({
+      message: 'Stops fetched successfully!',
+      type: 'success'
     });
     return await sendRequest("GET", `/backend/api/stops`);
   }
 
   public static async getUserStops(userId: string): Promise<{data: {stops: [SingleStopData]}}> {
-    this.toast.open({ 
-      message: 'Stops fetched successfully!', 
-      type: 'success' 
+    this.toast.open({
+      message: 'Stops fetched successfully!',
+      type: 'success'
     });
     return await sendRequest("GET", `/backend/api/users/${userId}/stops`);
   }
@@ -45,17 +45,17 @@ export class StopService {
   }
 
   public static async addUserStop(userId: string, stopId: string) {
-    this.toast.open({ 
-      message: 'Stop added successfully!', 
-      type: 'success' 
+    this.toast.open({
+      message: 'Stop added successfully!',
+      type: 'success'
     });
-    return await sendRequest("PUT", `/backend/api/users/${userId}/stops/${stopId}`);
+    await sendRequest("PUT", `/backend/api/users/${userId}/stops/${stopId}`);
   }
 
   public static async deleteUserStop(userId: string, stopId: string) {
-    this.toast.open({ 
-      message: 'Stop deleted successfully!', 
-      type: 'success' 
+    this.toast.open({
+      message: 'Stop deleted successfully!',
+      type: 'success'
     });
     return await sendRequest("DELETE", `/backend/api/users/${userId}/stops/${stopId}`);
   }

@@ -24,9 +24,8 @@ export default defineConfig({
       name: 'front-stops',
       filename: 'remoteEntry.js',
       exposes: {
-        './AllStopsComponent': './src/components/AllStopsComponent.vue',
-        './StopDetailsComponent': './src/components/StopDetailsComponent.vue',
-        './stores/stopsStore': './src/@Stores/stopsStore.ts',
+        './AllStopsComponent': './src/@components/AllStopsComponent.vue',
+        './StopDetailsComponent': './src/@components/StopDetailsComponent.vue',
       },
       shared: ['vue']
     }),

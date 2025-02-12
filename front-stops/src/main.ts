@@ -1,4 +1,4 @@
 import { createApp } from 'vue';
-import AllStopsComponent from './components/AllStopsComponent.vue';
+import AllStopsComponent from '@/@Components/AllStopsComponent.vue';
 
 export {AllStopsComponent}
