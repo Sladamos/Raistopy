@@ -6,7 +6,7 @@
       <RouterLink to="/" class="nav-link">Home</RouterLink>
       <RouterLink to="/stops" class="nav-link">Stops</RouterLink>
       <RouterLink v-if="isLoggedIn" to="/userStops" class="nav-link">Favourites</RouterLink>
-      <RouterLink to="/register" class="nav-link">Register</RouterLink>
+      <RouterLink v-if="!isLoggedIn" to="/register" class="nav-link">Register</RouterLink>
       <RouterLink v-if="!isLoggedIn" to="/login" class="nav-link">Login</RouterLink>
       <RouterLink v-if="isLoggedIn" to="/logout" class="nav-link">Logout</RouterLink>
     </ul>

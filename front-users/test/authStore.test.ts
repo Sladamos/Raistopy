@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach, Mock } from 'vitest';
 import { setActivePinia, createPinia } from 'pinia';
 import { useAuthStore } from '../src/@Stores/authStore';
-import authService from '../src/services/authService';
+import authService from '../src/@Services/authService';
 
 vi.mock('../src/services/authService', () => ({
     default: {

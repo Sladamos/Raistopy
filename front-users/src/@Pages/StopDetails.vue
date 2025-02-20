@@ -13,39 +13,38 @@
   </div>
 </template>
   
-  <script lang="ts">
-  import { useStopsStore } from '@/@Stores/stopsStore';
+<script lang="ts">
+import { useStopsStore } from '@/@Stores/stopsStore';
 import { defineComponent } from 'vue';
-  
-  const StopDetailsComponent = defineAsyncComponent(() => import('front-stops/StopDetailsComponent'));
-  
-  export default defineComponent({
-    name: 'Stops',
-    setup() {
-      const stopsStore = useStopsStore();
-      const router = useRouter();
-      const route = useRoute(); 
-      const stopId = route.params.id as string; 
-      const close = () => {
-        router.push(`/stops`);
-      };
 
-      onMounted(async () => {
-        await stopsStore.getStopDetails(stopId);
-      });
+const StopDetailsComponent = defineAsyncComponent(() => import('front-stops/StopDetailsComponent'));
 
-      const stopDetails = computed(() => stopsStore.stopDetails);
-  
-      return {
-        StopDetailsComponent: StopDetailsComponent,
-        stopDetails,
-        close
-      };
-    },
-  });
-  </script>
-  
-  <style scoped>
-  
-  </style>
-  
+export default defineComponent({
+  name: 'Stops',
+  setup() {
+    const stopsStore = useStopsStore();
+    const router = useRouter();
+    const route = useRoute();
+    const stopId = route.params.id as string;
+    const close = () => {
+      router.push(`/stops`);
+    };
+
+    onMounted(async () => {
+      await stopsStore.getStopDetails(stopId);
+    });
+
+    const stopDetails = computed(() => stopsStore.stopDetails);
+
+    return {
+      StopDetailsComponent: StopDetailsComponent,
+      stopDetails,
+      close
+    };
+  },
+});
+</script>
+
+<style scoped>
+
+</style>

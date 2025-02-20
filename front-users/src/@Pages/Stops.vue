@@ -1,10 +1,9 @@
 <template>
-    <div v-highlight="'#999999'" class="flex justify-center items-center min-h-screen bg-gray-50">
-        <component :is="AllStopsComponent" 
-        v-highlight="'pink'"
+    <div class="stops__container">
+        <component :is="AllStopsComponent"
         :title="'All stops'"
         :stops="stops" 
-        :show-button="isLoggedIn"
+        :show-button="showButton"
         :buttonTitle="'Add'"
         @on-button-clicked="onButtonClicked"
         @open-stop-details="openStopDetails"
@@ -14,42 +13,59 @@
 
 <script lang="ts">
 import { useAuthStore } from '@/@Stores/authStore';
-import { useStopsStore } from '../@Stores/stopsStore';
+import { useStopsStore } from '@/@Stores/stopsStore';
 import { defineComponent } from 'vue';
+import {SingleStopData} from "@/@Models/singleStopData";
 
 const AllStopsComponent = defineAsyncComponent(() => import('front-stops/AllStopsComponent'));
 
 export default defineComponent({
-name: 'Stops',
-setup() {
+  name: 'Stops',
+  setup() {
     const stopsStore = useStopsStore();
     const authStore = useAuthStore();
     const router = useRouter();
-    const openStopDetails = (stop: any) => {router.push(`/stops/${stop._id}`);};
-    const onButtonClicked = (stop: any) => {stopsStore.addUserStop(authStore.getUserId(), stop._id)}
-    
-    onMounted(async () => {
-    try {
-        await stopsStore.getStops();
-    } catch (e: any) {
-        console.error('Get stops failed:', e);
+    const stops = computed(() => stopsStore.stops);
+    const showButton = (stop: SingleStopData) => {
+      return computed(() => authStore.isLoggedIn && !stopsStore.userStops.map(e => e._id).includes(stop._id)).value;
+    };
+    const openStopDetails = (stop: any) => {
+      router.push(`/stops/${stop._id}`);
+    };
+    const onButtonClicked = (stop: any) => {
+      stopsStore.addUserStop(authStore.getUserId(), stop._id)
     }
+
+    onMounted(async () => {
+      try {
+        if (!stops.value || !stops.value.length) {
+          if (!!authStore.getUserId()) {
+            await stopsStore.getUserStops(authStore.getUserId());
+          }
+          await stopsStore.getStops();
+        }
+      } catch (e: any) {
+        console.error('Get stops failed:', e);
+      }
     });
 
-    const stops = computed(() => stopsStore.stops);
-    const isLoggedIn = computed(() => authStore.isLoggedIn);
-
     return {
-    AllStopsComponent: AllStopsComponent,
-    stops,
-    isLoggedIn,
-    openStopDetails,
-    onButtonClicked
+      AllStopsComponent: AllStopsComponent,
+      stops,
+      showButton,
+      openStopDetails,
+      onButtonClicked
     };
-},
+  },
 });
 </script>
 
 <style scoped>
+
+.stops__container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
 </style>

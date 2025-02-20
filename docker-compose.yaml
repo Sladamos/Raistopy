@@ -5,22 +5,24 @@ services:
     build:
       context: backend
       dockerfile: Dockerfile
-    ports:
-      - "3000:3000"
     depends_on:
       - mongo
     env_file:
       - backend/docker-config.env
-    volumes:
-      - ./backend:/usr/src/app
-      - /usr/src/backend/node_modules
-    command: "start:dev"
+
+  front-stops:
+    build:
+      context: front-stops
+      dockerfile: Dockerfile
+
+  front-users:
+    build:
+      context: front-users
+      dockerfile: Dockerfile
   
   mongo:
     image: mongo:5.0
     container_name: mongodb
-    ports:
-      - "27017:27017"
     volumes:
       - mongo-data:/data/db
 

@@ -1,10 +1,13 @@
-import { StopService, SingleStopData, SingleStopDetails} from '@/services/stopService';
+import { StopService } from '@/@Services/stopService';
 import { defineStore } from 'pinia';
+import {SingleStopDetails} from "@/@Models/singleStopDetails";
+import {SingleStopData} from "@/@Models/singleStopData";
 
 
 export const useStopsStore = defineStore('stops', {
   state: () => ({
     stops: [] as SingleStopData[],
+    userStops: [] as SingleStopData[],
     error: null as string | null,
     isLoading: false, 
     stopDetails: null as SingleStopDetails | null,
@@ -23,12 +26,13 @@ export const useStopsStore = defineStore('stops', {
         this.isLoading = false;
       }
     },
+
     async getUserStops(userId: string) {
       this.isLoading = true; 
       this.error = null; 
       try {
         const stops = await StopService.getUserStops(userId);
-        this.stops = stops.data.stops;
+        this.userStops = stops.data.stops;
       } catch (error) {
         throw error;
       } finally {
@@ -53,6 +57,8 @@ export const useStopsStore = defineStore('stops', {
       this.error = null;
       try {
         await StopService.addUserStop(userId, stopId);
+        const stop: SingleStopData = this.stops.find(stop => toRaw(stop)._id === stopId)!
+        this.userStops = [...this.userStops, stop]
       } catch (error) {
         this.error = error as string;
       }
@@ -61,11 +67,8 @@ export const useStopsStore = defineStore('stops', {
     async deleteUserStop(userId: string, stopId: string) {
       this.error = null;
       try {
-        await StopService.deleteUserStop(userId, stopId); 
-        this.stops = this.stops.filter(stop => {
-          const rawStop = toRaw(stop);
-          return rawStop._id !== stopId;
-        });
+        await StopService.deleteUserStop(userId, stopId);
+        this.userStops = this.userStops.filter(stop => toRaw(stop)._id !== stopId);
       } catch (error) {
         this.error = error as string;
       }

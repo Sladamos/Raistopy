@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach, Mock } from 'vitest';
 import { setActivePinia, createPinia } from 'pinia';
 import { useStopsStore } from '../src/@Stores/stopsStore';
-import { StopService } from '../src/services/stopService';
+import { StopService } from '../src/@Services/stopService';
 
 vi.mock('@/services/stopService', () => ({
   StopService: {

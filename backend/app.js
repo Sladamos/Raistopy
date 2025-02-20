@@ -7,7 +7,7 @@ const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
 const hpp = require('hpp');
 const swaggerUi = require('swagger-ui-express');
-const swaggerSpecs = require('./swaggerCOnfig');
+const swaggerSpecs = require('./swaggerConfig');
 
 const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/errorController');

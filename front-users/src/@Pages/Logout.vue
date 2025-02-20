@@ -6,7 +6,7 @@
 
 <script lang="ts">
 import { onMounted } from 'vue';
-import authService from '@/services/authService';
+import authService from '@/@Services/authService';
 import { useRouter } from 'vue-router';
 import { useAuthStore } from '../@Stores/authStore';
 

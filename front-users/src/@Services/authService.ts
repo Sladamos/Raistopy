@@ -1,16 +1,6 @@
 import { sendRequest } from './apiRequestService';
-
-interface SignupData {
-  id: string;
-  email: string;
-  password: string;
-  passwordConfirm: string;
-}
-
-interface LoginData {
-  email: string;
-  password: string;
-}
+import {SignupData} from "@/@Models/signupData";
+import {LoginData} from "@/@Models/loginData";
 
 export default {
   async signup(data: SignupData) {

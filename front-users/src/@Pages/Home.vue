@@ -50,10 +50,6 @@ export default defineComponent({
         duration: 2000,
         position: 'top-right',
       });
-      toast.success(instance?.proxy?.$staticMessageDataPlugin ?? 'I love KAIMS', {
-        duration: 2000,
-        position: 'top-right',
-      });
     });
 
     const handleLogout = () => {

@@ -1,10 +1,9 @@
 <template>
-    <div v-highlight="'pink'" class="flex justify-center items-center min-h-screen bg-gray-50">
-        <component :is="AllStopsComponent" 
-        v-highlight="'yellow'"
+    <div>
+        <component :is="AllStopsComponent"
         :title="'Favourite stops'"
         :stops="stops"
-        :show-button="true"
+        :show-button="() => true"
         :buttonTitle="'Delete'"
         @on-button-clicked="onButtonClicked"
         @open-stop-details="openStopDetails"/>
@@ -13,37 +12,42 @@
 
 <script lang="ts">
 import { useAuthStore } from '@/@Stores/authStore';
-import { useStopsStore } from '../@Stores/stopsStore';
+import { useStopsStore } from '@/@Stores/stopsStore';
 import { defineComponent } from 'vue';
 
 const AllStopsComponent = defineAsyncComponent(() => import('front-stops/AllStopsComponent'));
 
 export default defineComponent({
-name: 'Stops',
-setup() {
+  name: 'UserStops',
+  setup() {
     const stopsStore = useStopsStore();
     const authStore = useAuthStore();
     const router = useRouter();
-    const openStopDetails = (stop: any) => {router.push(`/stops/${stop._id}`);};
-    const onButtonClicked = (stop: any) => {stopsStore.deleteUserStop(authStore.getUserId(), stop._id)}
-     
-    onMounted(async () => {
-    try {
-        await stopsStore.getUserStops(authStore.getUserId());
-    } catch (e: any) {
-        console.error('Get stops failed:', e);
+    const stops = computed(() => stopsStore.userStops);
+    const openStopDetails = (stop: any) => {
+      router.push(`/stops/${stop._id}`);
+    };
+    const onButtonClicked = (stop: any) => {
+      stopsStore.deleteUserStop(authStore.getUserId(), stop._id)
     }
+
+    onMounted(async () => {
+      try {
+        if (!stops.value || !stops.value.length) {
+          await stopsStore.getUserStops(authStore.getUserId());
+        }
+      } catch (e: any) {
+        console.error('Get stops failed:', e);
+      }
     });
 
-    const stops = computed(() => stopsStore.stops);
-
     return {
-    AllStopsComponent: AllStopsComponent,
-    stops,
-    openStopDetails,
-    onButtonClicked
+      AllStopsComponent: AllStopsComponent,
+      stops,
+      openStopDetails,
+      onButtonClicked
     };
-},
+  },
 });
 </script>
 

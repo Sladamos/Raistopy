@@ -1,12 +1,12 @@
 import * as vR from "vue-router";
 import { useAuthStore } from '../@Stores/authStore';
-import Home from '@pages/home.vue';
-import Register from '@pages/register.vue';
-import Login from '@pages/login.vue';
-import Logout from '@pages/logout.vue';
-import Stops from '@pages/stops.vue';
-import UserStops from '@pages/userStops.vue';
-import StopDetails from '@pages/stopDetails.vue';
+import Home from '@pages/Home.vue';
+import Register from '@pages/Register.vue';
+import Login from '@pages/Login.vue';
+import Logout from '@pages/Logout.vue';
+import Stops from '@pages/Stops.vue';
+import UserStops from '@pages/UserStops.vue';
+import StopDetails from '@pages/StopDetails.vue';
 
 const _routes: Array<vR.RouteRecordRaw> = [
     {
@@ -73,7 +73,7 @@ const router = vR.createRouter({
 router.beforeEach((to, from, next) => {
     const authStore = useAuthStore();
     if (to.meta.requiresAuth && !authStore.isLoggedIn) {
-      next('/login'); // Redirect to login if not authenticated
+      next('/login');
     } else {
       next();
     }

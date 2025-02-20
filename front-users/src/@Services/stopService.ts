@@ -1,25 +1,7 @@
-// stopService.ts
 import { sendRequest } from './apiRequestService';
 import { useToast } from 'vue-toast-notification';
-
-export interface SingleStopData {
-  _id: string;
-  name: string;
-  subname: string | null;
-}
-
-export interface SingleStopDetails {
-  _id: string;
-  name: string;
-  subname: string | null;
-  latitude: number;
-  longitude: number;
-  type: string;
-  zoneName: string | null;
-  virtual: boolean;
-  ticketZoneBorder: boolean;
-  onDemand: boolean;
-}
+import {SingleStopData} from "@/@Models/singleStopData";
+import {SingleStopDetails} from "@/@Models/singleStopDetails";
 
 export class StopService {
   private static toast = useToast();
@@ -40,7 +22,7 @@ export class StopService {
     return await sendRequest("GET", `/backend/api/users/${userId}/stops`);
   }
 
-  public static async getStopDetails(stopId: string): Promise<{data: {stop:SingleStopDetails } }> {
+  public static async getStopDetails(stopId: string): Promise<{data: {stop: SingleStopDetails } }> {
     return await sendRequest("GET", `/backend/api/stops/${stopId}`);
   }
 
