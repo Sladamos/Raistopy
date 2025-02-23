@@ -24,8 +24,8 @@ export default defineConfig({
       name: 'front-stops',
       filename: 'remoteEntry.js',
       exposes: {
-        './AllStopsComponent': './src/@components/AllStopsComponent.vue',
-        './StopDetailsComponent': './src/@components/StopDetailsComponent.vue',
+        './AllStopsComponent': './src/@Components/AllStopsComponent.vue',
+        './StopDetailsComponent': './src/@Components/StopDetailsComponent.vue',
       },
       shared: ['vue']
     }),
@@ -34,7 +34,7 @@ export default defineConfig({
   resolve: {
     alias: {
       "@": fileURLToPath(new URL("./src", import.meta.url)),
-      "@components": path.resolve(__dirname, "src/components"),
+      "@components": path.resolve(__dirname, "src/@Components"),
       "@pages": path.resolve(__dirname, "src/@Pages"),
     },
   },
@@ -42,5 +42,5 @@ export default defineConfig({
     target: 'esnext',
     outDir: 'dist',
     emptyOutDir: true,
-  },
+  }
 });

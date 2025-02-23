@@ -1,2 +1,4 @@
 test
 cypress
+Dockerfile
+smoke-tests.sh

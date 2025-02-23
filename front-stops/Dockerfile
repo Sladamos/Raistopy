@@ -1,11 +1,13 @@
-FROM node:20
-ARG NODE_ENV=production
-ENV NODE_ENV=${NODE_ENV}
-
-WORKDIR /usr/src/front-stops
-RUN npm install -g vue-tsc
-COPY package.json ./
+FROM node:20 AS build
+WORKDIR /app
+COPY package*.json ./
 RUN npm install
 COPY . .
 RUN npm run build
-ENTRYPOINT [ "npm", "run", "preview" ]
+
+FROM node:20 AS production
+WORKDIR /app
+COPY --from=build /app/dist ./dist
+COPY package*.json ./
+RUN npm install --omit=dev
+CMD [ "npm", "run", "preview" ]

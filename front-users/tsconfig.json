@@ -22,7 +22,7 @@
       "@components/*": ["components/*"],
       "@pages/*": ["@Pages/*"],
     },
-    "types": ["vite/client", "jest"]
+    "types": ["vite/client"]
   },
   "include": [
     "src/**/*.ts", 

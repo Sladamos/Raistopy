@@ -23,7 +23,7 @@ export default defineConfig({
     federation({
       name: 'host',
       remotes: {
-        'front-stops': 'http://front-stops:5001/assets/remoteEntry.js',
+        'front-stops': 'http://localhost:5001/assets/remoteEntry.js',
       },
       shared: ['vue']
     }),

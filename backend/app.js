@@ -1,11 +1,9 @@
 const express = require('express');
 const morgan = require('morgan');
 const cron = require('node-cron');
-const rateLimit = require('express-rate-limit');
 const helmet = require('helmet');
 const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
-const hpp = require('hpp');
 const swaggerUi = require('swagger-ui-express');
 const swaggerSpecs = require('./swaggerConfig');
 
@@ -27,26 +25,12 @@ app.use(express.json({ limit: '10kb' }));
 app.use(mongoSanitize());
 
 app.use(xss());
-
-app.use(
-  hpp({
-    whitelist: [
-      'duration',
-      'ratingsQuantity',
-      'ratingsAverage',
-      'maxGroupSize',
-      'difficulty',
-      'price'
-    ]
-  })
-);
 app.use(express.static(`${__dirname}/public`));
 
 cron.schedule('0 0 * * *', () => {
   console.log('Stops loaded to cache');
   StopModel.syncStops()
 });
-
 
 StopModel.syncStops()
 
