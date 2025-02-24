@@ -1,6 +1,12 @@
 # Raistopy
 
+## Application Overview
+
 **Raistopy** is an experimental web application developed as part of the "Realizacja Aplikacji Internetowych" laboratory course. The project integrates **Vue.js** for the frontend, **Express.js** for the backend, and **Mongoose** to communicate with a MongoDB database. The entire application is built on a micro-frontends architecture and containerized using **Docker**.
+
+- This application displays information about public transportation stops using the ZTM Gdańsk API. 
+- The data is periodically synchronized to ensure its accuracy. 
+- Allows users to add and remove stops from their list of favorites (only for logged-in users).
 > **Note:** CSS styling was not the primary focus – sometimes it was implemented in a quick-and-dirty way for experimental purposes.
 ---
 
@@ -61,7 +67,7 @@
    docker-compose up -d --build
    ```
 4. **Visit site**
-   Check your site on http://localhost:5000
+   - Check your site on http://localhost:5000
 
 ### Testing
 
