@@ -23,7 +23,7 @@ export default defineConfig({
     federation({
       name: 'host',
       remotes: {
-        'front-stops': 'http://localhost:5001/assets/remoteEntry.js',
+        'front-stops': '/remotes/assets/remoteEntry.js',
       },
       shared: ['vue']
     }),
@@ -39,13 +39,24 @@ export default defineConfig({
   server: {
     proxy: {
       '/backend': {
-        target: 'http://localhost:3000/',
+        target: 'http://backend:3000/',
         changeOrigin: true,
         secure: false,
         ws: true,
         rewrite: (path) => path.replace(/^\/backend/, ''),
       },
+      '/remotes': {
+        target: 'http://front-stops:5000/',
+        changeOrigin: true,
+        secure: false,
+        ws: true,
+        rewrite: (path) => path.replace(/^\/remotes/, ''),
+      },
     },
+    host: '0.0.0.0',
+    watch: {
+      usePolling: true
+    }
   },
   build: {
     target: 'esnext',
