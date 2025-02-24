@@ -1,5 +1,5 @@
 import * as vR from "vue-router";
-import { useAuthStore } from '../@Stores/authStore';
+import { useAuthStore } from '@/@Stores/authStore';
 import Home from '@pages/Home.vue';
 import Register from '@pages/Register.vue';
 import Login from '@pages/Login.vue';

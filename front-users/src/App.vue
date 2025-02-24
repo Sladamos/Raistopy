@@ -1,17 +1,16 @@
 <template>
-  <div class="bg-gray-50 text-gray-800 p-6">
-    <h1 class="text-2xl font-bold text-center mb-6">Super Bus Stop Application</h1>
-    
-    <ul class="flex justify-center space-x-6">
-      <RouterLink to="/" class="nav-link">Home</RouterLink>
-      <RouterLink to="/stops" class="nav-link">Stops</RouterLink>
-      <RouterLink v-if="isLoggedIn" to="/userStops" class="nav-link">Favourites</RouterLink>
-      <RouterLink v-if="!isLoggedIn" to="/register" class="nav-link">Register</RouterLink>
-      <RouterLink v-if="!isLoggedIn" to="/login" class="nav-link">Login</RouterLink>
-      <RouterLink v-if="isLoggedIn" to="/logout" class="nav-link">Logout</RouterLink>
-    </ul>
-  </div>
-  
+  <header class="main__container">
+    <h1 class="main__title">Super Bus Stop Application</h1>
+    <nav class="main__nav">
+      <RouterLink to="/" class="nav__link">Home</RouterLink>
+      <RouterLink to="/stops" class="nav__link">Stops</RouterLink>
+      <RouterLink v-if="isLoggedIn" to="/userStops" class="nav__link">Favourites</RouterLink>
+      <RouterLink v-if="!isLoggedIn" to="/register" class="nav__link">Register</RouterLink>
+      <RouterLink v-if="!isLoggedIn" to="/login" class="nav__link">Login</RouterLink>
+      <RouterLink v-if="isLoggedIn" to="/logout" class="nav__link">Logout</RouterLink>
+    </nav>
+  </header>
+
   <RouterView />
 </template>
 
@@ -21,17 +20,43 @@ import { useAuthStore } from './@Stores/authStore';
 const authStore = useAuthStore();
 const isLoggedIn = computed(() => authStore.isLoggedIn);
 </script>
+
 <style scoped>
-/* Custom Tailwind class for navigation links */
-.nav-link {
-  @apply inline-block py-2 px-4 text-center text-white rounded-md bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition duration-200 ease-in-out;
+.main__container {
+  background-color: #f9fafb;
+  color: #1f2937;
+  padding: 24px;
 }
 
-.nav-link:hover {
-  @apply bg-indigo-700;
+.main__title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 24px;
 }
 
-.nav-link:active {
-  @apply bg-indigo-800;
+.main__nav {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+}
+
+.nav__link {
+  display: inline-block;
+  padding: 8px 16px;
+  text-align: center;
+  color: white;
+  background-color: #4f46e5;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.nav__link:hover {
+  background-color: #4338ca;
+}
+
+.nav__link:active {
+  background-color: #3730a3;
 }
 </style>

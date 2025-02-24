@@ -1,53 +1,48 @@
 <template>
-  <div class="flex justify-center items-center min-h-screen bg-gray-50">
-    <div class="w-full max-w-md p-6 bg-white rounded-lg shadow-md">
-      <h2 class="text-2xl font-bold text-center text-gray-700 mb-6">Register</h2>
-      <form @submit.prevent="handleSubmit">
-        <div class="mb-4">
-          <label for="email" class="block text-sm font-medium text-gray-600">Email</label>
+  <div class="register">
+    <div class="register__container">
+      <h2 class="register__title">Register</h2>
+      <form @submit.prevent="handleSubmit" class="register__form">
+        <div class="register__field">
+          <label for="email" class="register__label">Email</label>
           <input
-            type="email"
-            id="email"
-            v-model="email"
-            required
-            class="mt-1 w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+              type="email"
+              id="email"
+              v-model="email"
+              required
+              class="register__input"
           />
         </div>
-        <div class="mb-4">
-          <label for="password" class="block text-sm font-medium text-gray-600">Password</label>
+        <div class="register__field">
+          <label for="password" class="register__label">Password</label>
           <input
-            type="password"
-            id="password"
-            v-model="password"
-            required
-            class="mt-1 w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+              type="password"
+              id="password"
+              v-model="password"
+              required
+              class="register__input"
           />
         </div>
-        <div class="mb-4">
-          <label for="passwordConfirm" class="block text-sm font-medium text-gray-600">Confirm Password</label>
+        <div class="register__field">
+          <label for="passwordConfirm" class="register__label">Confirm Password</label>
           <input
-            type="password"
-            id="passwordConfirm"
-            v-model="passwordConfirm"
-            required
-            class="mt-1 w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+              type="password"
+              id="passwordConfirm"
+              v-model="passwordConfirm"
+              required
+              class="register__input"
           />
         </div>
-        <button
-          type="submit"
-          class="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-        >
-          Register
-        </button>
+        <button type="submit" class="register__button">Register</button>
       </form>
-      <p v-if="error" class="text-red-600 text-sm mt-4">{{ error }}</p>
+      <p v-if="error" class="register__error">{{ error }}</p>
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import { ref } from 'vue';
-import { useAuthStore } from '../@Stores/authStore';
+import { useAuthStore } from '@/@Stores/authStore';
 import { useRouter } from 'vue-router';
 
 export default {
@@ -87,5 +82,74 @@ export default {
 </script>
 
 <style scoped>
+.register {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #f9fafb;
+}
 
+.register__container {
+  width: 100%;
+  max-width: 400px;
+  padding: 2rem;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.register__title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-align: center;
+  color: #374151;
+  margin-bottom: 1.5rem;
+}
+
+.register__form {
+  display: flex;
+  flex-direction: column;
+}
+
+.register__field {
+  margin-bottom: 1rem;
+}
+
+.register__label {
+  font-size: 0.875rem;
+  color: #4b5563;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+.register__input {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.register__button {
+  padding: 0.75rem;
+  background-color: #4f46e5;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1rem;
+  margin-top: 1rem;
+}
+
+.register__button:hover {
+  background-color: #4338ca;
+}
+
+.register__error {
+  color: #dc2626;
+  font-size: 0.875rem;
+  margin-top: 1rem;
+  text-align: center;
+}
 </style>

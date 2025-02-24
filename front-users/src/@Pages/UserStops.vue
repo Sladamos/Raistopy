@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="stops__container">
         <component :is="AllStopsComponent"
         :title="'Favourite stops'"
         :stops="stops"
@@ -52,5 +52,12 @@ export default defineComponent({
 </script>
 
 <style scoped>
+
+.stops__container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f9fafb;
+}
 
 </style>
