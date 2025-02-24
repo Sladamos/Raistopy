@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const dotenv = require('dotenv');
 
 process.on('uncaughtException', err => {
   console.log('Unhandled exception');
@@ -7,7 +6,6 @@ process.on('uncaughtException', err => {
   process.exit(1);
 });
 
-dotenv.config({ path: './local-config.env' });
 const app = require('./app');
 
 const DB = process.env.DATABASE_LOCAL.replace(
