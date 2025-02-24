@@ -1,19 +1,25 @@
 version: '3.9'
 
 services:
-  backend:
-    build:
-      context: backend
-      dockerfile: Dockerfile
-    depends_on:
-      - mongo
-    env_file:
-      - backend/docker-config.env
+  mongo:
+    image: mongo:5.0
+    container_name: mongodb
+    volumes:
+      - mongo-data:/data/db
 
   front-stops:
     build:
       context: front-stops
       dockerfile: Dockerfile
+
+  backend:
+    build:
+      context: backend
+      dockerfile: Dockerfile
+    env_file:
+      - backend/docker-config.env
+    depends_on:
+      - mongo
 
   front-users:
     build:
@@ -21,12 +27,9 @@ services:
       dockerfile: Dockerfile
     ports:
       - "5000:5000"
-
-  mongo:
-    image: mongo:5.0
-    container_name: mongodb
-    volumes:
-      - mongo-data:/data/db
+    depends_on:
+      - front-stops
+      - backend
 
 volumes:
   mongo-data:
