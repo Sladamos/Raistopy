@@ -56,10 +56,13 @@
     ``` 
    Fill the docker-config.env file with appropriate content. I provided docker-config-template.env, but be aware of that. You should change its content.
 3. **Build and start the Docker Containers:**
-    ```
-    docker-compose up -d --build
-    ```
-4. **Run smoke tests**
-    ```bash
-    ./smoke-tests.sh
-    ```
+   ```
+   cd ..
+   docker-compose up -d --build
+   ```
+4. **Visit site**
+   Check your site on http://localhost:5000
+
+### Testing
+
+Simple tests are written but are not possible to launch due to containerization. Fell free to write more tests and made them runnable in PR.
