@@ -6,7 +6,7 @@ describe('Login Page Tests', () => {
 
   it('should login successfully with valid credentials', () => {
     cy.get('input[id="email"]').type('kwik@wp.pl');
-    cy.get('input[id="password"]').type('zaq21wsxcde43rfv');
+    cy.get('input[id="password"]').type('kwikUserTestPassword');
     cy.get('button[type="submit"]').click();
 
     cy.url().should('include', '/');

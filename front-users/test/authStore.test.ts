@@ -3,7 +3,7 @@ import { setActivePinia, createPinia } from 'pinia';
 import { useAuthStore } from '../src/@Stores/authStore';
 import authService from '../src/@Services/authService';
 
-vi.mock('../src/services/authService', () => ({
+vi.mock('../src/@Services/authService', () => ({
     default: {
         isAuthenticated: vi.fn(),
         login: vi.fn(),

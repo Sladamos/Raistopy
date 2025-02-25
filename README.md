@@ -71,4 +71,21 @@
 
 ### Testing
 
-Simple tests are written but are not possible to launch due to containerization. Fell free to write more tests and made them runnable in PR.
+1. Launch app
+   ```
+   docker-compose up -d
+   ```
+2. Build tests
+   ```
+   cd front-users
+   npm install
+   ```
+3. Create test user
+   - Visit http://localhost:5000
+   - Create user with credentials
+     - Login: kwik@wp.pl
+     - Password: kwikUserTestPassword
+4. Launch tests
+   ```
+   ./smoke-tests.sh
+   ```

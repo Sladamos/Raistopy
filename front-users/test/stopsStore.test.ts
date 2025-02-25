@@ -3,7 +3,7 @@ import { setActivePinia, createPinia } from 'pinia';
 import { useStopsStore } from '../src/@Stores/stopsStore';
 import { StopService } from '../src/@Services/stopService';
 
-vi.mock('@/services/stopService', () => ({
+vi.mock('../src/@Services/stopService', () => ({
   StopService: {
     getStops: vi.fn(),
     getUserStops: vi.fn(),
@@ -62,7 +62,7 @@ describe('useStopsStore', () => {
       await stopsStore.getUserStops('user123');
 
       expect(StopService.getUserStops).toHaveBeenCalledWith('user123');
-      expect(stopsStore.stops).toEqual(mockUserStops);
+      expect(stopsStore.userStops).toEqual(mockUserStops);
       expect(stopsStore.isLoading).toBe(false);
       expect(stopsStore.error).toBeNull();
     });
@@ -118,12 +118,12 @@ describe('useStopsStore', () => {
       (StopService.deleteUserStop as Mock).mockResolvedValue(undefined);
 
       const stopsStore = useStopsStore();
-      stopsStore.stops = mockStops;
+      stopsStore.userStops = mockStops;
 
       await stopsStore.deleteUserStop('user123', 'stop123');
 
       expect(StopService.deleteUserStop).toHaveBeenCalledWith('user123', 'stop123');
-      expect(stopsStore.stops).toEqual([{ _id: 'stop456', name: 'Stop 2' }]);
+      expect(stopsStore.userStops).toEqual([{ _id: 'stop456', name: 'Stop 2' }]);
       expect(stopsStore.error).toBeNull();
     });
 

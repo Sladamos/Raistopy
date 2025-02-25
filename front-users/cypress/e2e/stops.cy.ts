@@ -5,11 +5,11 @@ describe('Stops Page Tests', () => {
     });
   
     it('should navigate to the Stops page and display stops', () => {
-      cy.get('.nav-link').contains('Stops').click();
+      cy.get('.nav__link').contains('Stops').click();
       cy.url().should('include', '/stops');
-      cy.get('h1.title').should('contain', 'All stops');
-      cy.get('.grid').should('exist');
-      cy.get('.grid > div').should('have.length.greaterThan', 0);
+      cy.get('h1.stops__title').should('contain', 'All stops');
+      cy.get('.stops__wrapper').should('exist');
+      cy.get('.stops__wrapper > div').should('have.length.greaterThan', 0);
     });
   });
   

@@ -7,7 +7,7 @@ describe('Authentication Tests', () => {
     });
   
     it('should not display the logout button for unauthenticated users', () => {
-      cy.get('.nav-link').contains('Logout').should('not.exist');
+      cy.get('.nav__link').contains('Logout').should('not.exist');
     });
 
     it('should prevent unauthenticated users from accessing the /logout route', () => {
@@ -19,13 +19,13 @@ describe('Authentication Tests', () => {
     it('should allow logged-in users to logout and see the login button', () => {
         cy.visit(`${baseUrl}/login`);
         cy.get('input[id="email"]').type('kwik@wp.pl');
-        cy.get('input[id="password"]').type('zaq21wsxcde43rfv');
+        cy.get('input[id="password"]').type('kwikUserTestPassword');
         cy.get('button[type="submit"]').click();
-        cy.get('.nav-link').contains('Logout').should('be.visible');
-        cy.get('.nav-link').contains('Login').should('not.exist');
-        cy.get('.nav-link').contains('Logout').click();
+        cy.get('.nav__link').contains('Logout').should('be.visible');
+        cy.get('.nav__link').contains('Login').should('not.exist');
+        cy.get('.nav__link').contains('Logout').click();
         cy.url().should('include', '/');
-        cy.get('.nav-link').contains('Login').should('be.visible');
-        cy.get('.nav-link').contains('Logout').should('not.exist');
+        cy.get('.nav__link').contains('Login').should('be.visible');
+        cy.get('.nav__link').contains('Logout').should('not.exist');
       });
 });
